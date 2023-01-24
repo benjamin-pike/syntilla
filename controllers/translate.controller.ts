@@ -1,21 +1,21 @@
 import * as AWS from 'aws-sdk';
 
-if (!process.env.AWS_ACCESS_KEY) {
-    throw new Error('AWS_ACCESS_KEY must be defined in environment variables')
+if (!process.env.AWS_ACCESS) {
+    throw new Error('AWS_ACCESS must be defined in environment variables')
 }
 
-if (!process.env.AWS_SECRET_KEY) {
-    throw new Error('AWS_SECRET_KEY must be defined in environment variables')
+if (!process.env.AWS_SECRET) {
+    throw new Error('AWS_SECRET must be defined in environment variables')
 }
 
-if (!process.env.AWS_REGION) {
-    throw new Error('AWS_REGION must be defined in environment variables')
+if (!process.env.AWS_REG) {
+    throw new Error('AWS_REG must be defined in environment variables')
 }
 
 const translator = new AWS.Translate({
-    accessKeyId: process.env.AWS_ACCESS_KEY,
-    secretAccessKey: process.env.AWS_SECRET_KEY,
-    region: process.env.AWS_REGION
+    accessKeyId: process.env.AWS_ACCESS,
+    secretAccessKey: process.env.AWS_SECRET,
+    region: process.env.AWS_REG
   });
 
 export const translate = async (sentence: string, language: { from: string, to: string }) => {
