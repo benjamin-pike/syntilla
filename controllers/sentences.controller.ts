@@ -3,7 +3,6 @@ import { MongoClient } from 'mongodb';
 if (!process.env.MONGO_URI) {
     throw new Error('MONGO_URI must be defined in environment variables')
 }
-
 const url = process.env.MONGO_URI
 
 export const getSentences = async (count: number) => {
@@ -19,7 +18,7 @@ export const getSentences = async (count: number) => {
 
     const [spanishTranslationData, englishTranslationData] = await Promise.all([
         Promise.all(sentences.map(async (sentence) => {
-          const res = await fetch(`${process.env.APP_URL}/api/dictionary`, {
+          const res = await fetch(`${process.env.NEXT_PUBLIC_ROOT_URL}/api/dictionary`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -33,7 +32,7 @@ export const getSentences = async (count: number) => {
           return data;
         })),
         Promise.all(sentences.map(async (sentence) => {
-          const res = await fetch(`${process.env.APP_URL}/api/dictionary`, {
+          const res = await fetch(`${process.env.NEXT_PUBLIC_ROOT_URL}/api/dictionary`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
