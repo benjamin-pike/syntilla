@@ -1,0 +1,685 @@
+.promptText {
+    box-sizing: content-box;
+    padding: 0;
+    margin: 0;
+    color: white;
+    font-size: 1.75rem;
+    font-weight: 400;
+    width: 70%;
+    max-width: 900px;
+    user-select: none;
+    transition: 
+        font-size 200ms ease, 
+        width 200ms ease,
+        transform 500ms ease,
+        opacity 500ms ease,
+}
+
+.promptText[data-transition-status = 'fade-out'] {
+    transform: translateY(-1em);
+    opacity: 0;
+    transition: 
+        font-size 200ms ease, 
+        width 200ms ease,
+        transform 500ms ease,
+        opacity 500ms ease,
+        height 500ms ease;
+}
+
+.promptText[data-transition-status = 'transitioning'] {
+    transform: translateY(1em);
+    opacity: 0;
+    transition: 
+        font-size 200ms ease, 
+        width 200ms ease,
+        height 500ms ease,
+}
+
+.promptText[data-transition-status = 'fade-in'] {
+    transform: translateY(0);
+    opacity: 1;
+    transition: 
+        font-size 200ms ease, 
+        width 200ms ease,
+        transform 500ms ease,
+        opacity 500ms ease,
+        height 500ms ease;
+}
+
+.promptTextLine {
+    white-space: nowrap;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    display: inline-block;
+}
+
+.promptTextWord {
+    position: relative;
+    cursor: pointer;
+    color: transparent;
+    transition: 
+        margin 500ms ease,
+        opacity 500ms ease;
+}
+
+.promptTextWord[data-space = 'true'] {
+    margin-right: 0.2em;
+}
+
+.promptTextWord[data-space = 'true']:hover{
+    margin: 0 0.35em 0 0.15em;
+}
+
+.promptTextWord[data-space = 'false']:hover{
+    margin: 0 0.1em 0 0.15em;
+}
+
+.promptTextWord[data-space = 'false']:hover + .promptTextWord{
+    margin: 0 0.15em 0 0;
+}
+
+.promptText:last-of-type {
+    margin-right: 0;
+}
+
+.promptTextWord::after {
+    content: attr(data-word);
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    font: inherit;
+    font-weight: 400;
+    color: white;
+    transition:
+        scale 200ms ease,
+        color 200ms ease, 
+        transform 200ms ease,
+        font-weight 100ms ease,
+        letter-spacing 200ms ease;
+}
+
+.promptTextWord:hover::after {
+    font-weight: 700;
+}
+
+.promptText:has(.promptTextWord:hover) .promptTextWord:not(:hover) {
+    opacity: 0.5;
+}
+.promptTextWord[data-pos = 'NOUN']:hover::after,
+.promptTextWord[data-pos = 'PROPN']:hover::after {
+    color: var(--red);
+}
+
+.promptTextWord[data-pos = 'DET']:hover::after,
+.promptTextWord[data-pos = 'PRON']:hover::after {
+    color: var(--orange);
+}
+
+.promptTextWord[data-pos = 'ADJ']:hover::after,
+.promptTextWord[data-pos = 'NUM']:hover::after {
+    color: var(--yellow);
+}
+
+.promptTextWord[data-pos = 'ADV']:hover::after {
+    color: var(--lime);
+}
+
+.promptTextWord[data-pos = 'AUX']:hover::after,
+.promptTextWord[data-pos = 'VERB']:hover::after {
+    color: var(--green);
+}
+
+.promptTextWord[data-pos = 'CCONJ']:hover::after,
+.promptTextWord[data-pos = 'SCONJ']:hover::after {
+    color: var(--blue);
+}
+
+.promptTextWord[data-pos = 'ADP']:hover::after {
+    color: var(--purple);
+}
+
+.promptTextWord[data-pos = 'PUNCT']{
+    cursor: default;
+    pointer-events: none;
+}
+
+.input {
+    appearance: none;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+
+    background-color: var(--bg-200);
+    outline: none;
+    box-shadow: 0 0 0 1.5px #30363C;
+    border: none;
+    color: white;
+    width:  70%;
+    font-size: 2em;
+    font-weight: 500;
+    text-align: center;
+    padding: 1.25em 1.5em;
+    border-radius: 0.5em;
+    overflow: hidden;
+    resize: none;
+    caret-color: rgb( 255 255 255 / 0.1 );
+    z-index: 100;
+    transition: 
+        box-shadow 500ms ease,
+        font-size 200ms ease, 
+        width 200ms ease;
+}
+
+.input:focus {
+    box-shadow:
+        0 0 0 1.5px rgb( 255 255 255 / 0.5 ),
+        0 0 1em black inset,
+        0 0 1em rgb( 200 200 255 / 0.15 ),
+        0 0 5em rgb( 200 200 255 / 0.05 ),
+        0 0 10em rgb( 200 200 255 / 0.025 );
+}
+
+.correctTranslation {
+    font-size: 1em;
+    padding: 1px;
+    opacity: 0;
+    height: 0;
+    margin-top: calc(0em - var(--gap));
+    width: calc(70% - 1.25em * 2);
+    display: flex;
+    justify-content: center;
+    transition:
+        margin-top 500ms ease,
+        opacity 500ms ease,
+        height 500ms ease;
+}
+
+.correctTranslation[data-ischecked = 'true'] {
+    margin-top: 0;
+    opacity: 1;
+}
+
+.correctTranslation > p {
+    color: var(--blue);
+    border-radius: 0.5em;
+    padding: 1em 1.25em;
+    width: fit-content;
+    height: fit-content;
+    box-shadow: 0 0 0 1px var(--blue);
+    background-color: var(--blue-highlight);
+    font-weight: 400;
+    user-select: none;
+    text-align: center;
+}
+
+.correctTranslation > p > span {
+    white-space: nowrap;
+}
+
+.buttonAndPercentage {
+    position: relative;
+    height: fit-content;
+    width: fit-content;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: fit-content;
+    gap: 1em;
+}
+
+.checkButton {
+    position: relative;
+    cursor: pointer;
+    background-color: var(--bg-100);
+    outline: none;
+    box-shadow: 0 0 0 1px #30363C;
+    border: none;
+    color: white;
+    font-weight: 500;
+    text-align: center;
+    font-size: 1.1em;
+    padding: 1.25em 1.5em;
+    border-radius: 0.5em;
+    z-index: 1;
+    white-space: nowrap;
+    right: 50%;
+    transform: translateX(50%);
+    transition: 
+        right 500ms ease,
+        transform 500ms ease,
+        box-shadow 200ms ease,
+        font-size 200ms ease, 
+        width 200ms ease;
+}
+
+.checkButton:hover {
+    box-shadow:
+        0 0 0 1px rgb( 255 255 255 / 0.5 ),
+        0 0 1em black inset,
+        0 0 1em rgb( 200 200 255 / 0.15 ),
+        0 0 5em rgb( 200 200 255 / 0.1 ),
+        0 0 10em rgb( 200 200 255 / 0.05 );
+}
+
+.percentage {
+    position: relative;
+    color: white;
+    border-radius: 0.5em;
+    font-size: 1.1em;
+    padding: 1.25em 1.5em;
+    font-weight: 500;
+    text-align: center;
+    user-select: none;
+    opacity: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    transition: 
+        opacity 500ms ease,
+        left 500ms ease,
+        transform 500ms ease,
+        font-size 200ms ease, 
+        width 200ms ease;
+}
+
+.buttonAndPercentage[data-ischecked = 'true'] > .checkButton {
+    right: 0;
+    transform: translateX(0);
+}
+
+.buttonAndPercentage[data-ischecked = 'true'] > .percentage {
+    opacity: 1;
+    left: 0;
+    transform: translateX(0);
+}
+
+.percentage[data-color = 'green']{
+    color: var(--green);
+    box-shadow: 0 0 0 1px var(--green);
+    background-color: var(--green-highlight);
+}
+
+.percentage[data-color = 'yellow']{
+    color: var(--yellow);
+    box-shadow: 0 0 0 1px var(--yellow);
+    background-color: var(--yellow-highlight);
+}
+
+.percentage[data-color = 'orange']{
+    color: var(--orange);
+    box-shadow: 0 0 0 1px var(--orange);
+    background-color: var(--orange-highlight);
+}
+
+.percentage[data-color = 'red']{
+    color: var(--red);
+    box-shadow: 0 0 0 1px var(--red);
+    background-color: var(--red-highlight);
+}
+
+@media (max-width: 1024px) {
+    .promptText {
+        font-size: 1.5rem;
+    }
+    .input{
+        font-size: 1.5rem;
+        width:  75%;
+    }
+    .correctTranslation {
+        font-size: 1em;
+    }
+    .checkButton,
+    .percentage{
+        font-size: 1em;
+    }
+}
+
+@media (max-width: 768px) {
+    .promptText {
+        font-size: 1.25rem;
+    }
+    .input{
+        font-size: 1.25rem;
+        width:  75%;
+    }
+    .correctTranslation {
+        font-size: 0.9em;
+    }
+    .checkButton,
+    .percentage{
+        font-size: 0.9em;
+    }
+
+    #wordInfo[data-state = 'open'] {
+        box-shadow: 
+            0 0 0 1px #30363C,
+            0 0 0.5rem rgb( 0 0 0 / 0.25 ),
+            0 0 2.5rem rgb( 0 0 0 / 0.50 ),
+            0 0 5rem rgb( 0 0 0 / 0.75 ),
+            0 0 0 100vmax rgb( 0 0 0 / 0.5 ) !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .promptText {
+        font-size: 1rem;
+        width: 80%;
+    }
+    .input{
+        font-size: 1rem;
+        width: 80%;
+    }
+    .correctTranslation {
+        max-width: 80%;
+    }
+    .correctTranslation {
+        font-size: 0.8em;
+    }
+    .checkButton,
+    .percentage{
+        font-size: 0.8rem;
+    }
+}
+
+#wordInfo {
+    position: absolute;
+    background-color: var(--bg-100);
+    color: white;
+    border-radius: 1em;
+    box-shadow: 0 0 0 1px #30363C;
+    z-index: 999999;
+    height: 0;
+    width: 0;
+    max-width: 80vw;
+    overflow: hidden;
+    transition:
+        box-shadow 500ms ease,
+        height 300ms ease,
+        width 300ms ease,
+        transform 300ms ease;
+}
+
+#wordInfo[data-state = 'open'] {
+    box-shadow: 
+        0 0 0 1px #30363C,
+        0 0 0.5rem rgb( 0 0 0 / 0.25 ),
+        0 0 2.5rem rgb( 0 0 0 / 0.50 ),
+        0 0 5rem rgb( 0 0 0 / 0.75 );
+}
+
+#wordInfo * {
+    transition: opacity 300ms ease;
+}
+
+#wordInfo[data-state = 'closed'] * {
+    opacity: 0;
+}
+
+#wordInfo[data-state = 'open'] * {
+    opacity: 1;
+}
+
+#wordInfo::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-radius: 1.1em;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 100;
+}
+
+#wordInfoContent {
+    padding: 1.5em;
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+    max-height: 80vh;
+    max-width: 80vw;
+    width: fit-content;
+}
+
+#wordInfoContent * {
+    white-space: nowrap;
+}
+
+#wordInfoContent > h1,
+#wordInfoContent > p,
+#wordInfoTranslations > h2 {
+    font-weight: 500;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 1em
+}
+
+#wordInfoContent > h1 {
+    justify-content: center;
+}
+
+.wordInfoSeparator {
+    width: 100%;
+    height: 1px;
+    background-color: #30363C;
+    flex-shrink: 0;
+}
+
+#wordInfoWord,
+.wordInfoPos,
+#wordInfoLemma {
+    padding: 0.25em 0.75em;
+    border-radius: 100vmax;
+}
+
+#wordInfoWord {
+    font-weight: 600;
+    color: var(--bg-100);
+    background-color: white;
+    box-shadow: 0 0 0 1px white;
+}
+
+#wordInfoLemma {
+    background-color: var(--bg-200);
+    box-shadow: 0 0 0 1px white;
+}
+
+#wordInfoLemmaLabel,
+#wordInfoTranslations > h2 {
+    font-weight: 500;
+    opacity: 0.5;
+}
+
+.wordInfoPos[data-pos = 'NOUN'],
+.wordInfoPos[data-pos = 'PROPN'] {
+    color: var(--red);
+    background-color: var(--red-highlight);
+    box-shadow: 0 0 0 1px var(--red);
+}
+.wordInfoPos[data-pos = 'DET'],
+.wordInfoPos[data-pos = 'PRON'] {
+    color: var(--orange);
+    background-color: var(--orange-highlight);
+    box-shadow: 0 0 0 1px var(--orange);
+}
+.wordInfoPos[data-pos = 'ADJ'],
+.wordInfoPos[data-pos = 'NUM'] {
+    color: var(--yellow);
+    background-color: var(--yellow-highlight);
+    box-shadow: 0 0 0 1px var(--yellow);
+}
+.wordInfoPos[data-pos = 'ADV'] {
+    color: var(--lime);
+    background-color: var(--lime-highlight);
+    box-shadow: 0 0 0 1px var(--lime);
+}
+.wordInfoPos[data-pos = 'AUX'],
+.wordInfoPos[data-pos = 'VERB'] {
+    color: var(--green);
+    background-color: var(--green-highlight);
+    box-shadow: 0 0 0 1px var(--green);
+}
+.wordInfoPos[data-pos = 'CCONJ'],
+.wordInfoPos[data-pos = 'SCONJ']{
+    color: var(--blue);
+    background-color: var(--blue-highlight);
+    box-shadow: 0 0 0 1px var(--blue);
+}
+
+.wordInfoPos[data-pos = 'ADP'] {
+    color: var(--purple);
+    background-color: var(--purple-highlight);
+    box-shadow: 0 0 0 1px var(--purple);
+}
+
+#wordInfoTranslations {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75em;
+    max-width: 80vw;
+    overflow-x: scroll;
+}
+
+#translationsCopyright {
+    margin-top: -0.75em;
+    font-weight: 300;
+    font-size: 0.75rem;
+    opacity: 0.5;
+}
+
+#wordInfoPrimaryTranslations {
+    display: flex;
+    flex-direction: wrap;
+    gap: 1em;
+    padding-left: 0.5rem;
+}
+
+#wordInfoPrimaryTranslations > li {
+    padding: 0.25em 0.75em;
+    font-size: 0.9rem;
+    font-weight: 600;
+    border-radius: 100vmax;
+    color: white;
+    background-color: var(--blue);
+    box-shadow: 0 0 0 1px var(--blue);
+}
+
+.translationPos {
+    font-weight: 600;
+    font-size: 0.90rem;
+    padding: 0.5rem 0.25rem;
+    margin-bottom: 0.25rem;
+    border-bottom: 1px solid #30363C;
+}
+
+#wordInfoDetailedTranslations {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    width: fit-content;
+    min-width: 100%;
+}
+
+#wordInfoDetailedTranslations h4 {
+    font-weight: 400;
+    font-size: 0.85rem;
+    color: rgb(150, 150, 150);;
+}
+
+.translation {
+    font-weight: 600;
+    font-size: 0.85rem;
+}
+
+.translation::before {
+    content: '•';
+    margin-right: 0.5em;
+}
+
+li.translation {
+    padding: 0.25rem 0 0.25rem 0.5rem;
+}
+
+p.translation::before {
+    margin-right: 0.5rem;
+}
+
+.translationSenseChunk {
+    display: flex;
+    padding: 1rem;
+    background-color: rgba(255 255 255 / 0.05);
+    border-radius: 0.5rem;
+}
+
+.translationPosChunk {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    padding-top: 0.5rem;
+}
+
+.translationSenseChunk[data-direction = 'column'] {
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.translationSenseChunk[data-direction = 'row'] {
+    flex-direction: row-reverse;
+    justify-content: left;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+/* 
+.translationPos {
+    position: relative;
+    list-style-type: none;
+    font-weight: 300;
+    font-size: 0.8rem;
+    padding: 0.5rem 0.75rem;
+    border-radius: 1rem 1rem 0.1rem 0.1rem;
+    border-bottom: 1px solid currentColor;
+}
+
+.translationPos[data-pos = 'NOUN'],
+.translationPos[data-pos = 'PROPN'] {
+    color: var(--red);
+    background-color: var(--red-highlight);
+}
+.translationPos[data-pos = 'DET'],
+.translationPos[data-pos = 'PRON'] {
+    color: var(--orange);
+    background-color: var(--orange-highlight);
+}
+.translationPos[data-pos = 'ADJ'],
+.translationPos[data-pos = 'NUM'] {
+    color: var(--yellow);
+    background-color: var(--yellow-highlight);
+}
+.translationPos[data-pos = 'ADV'] {
+    color: var(--lime);
+    background-color: var(--lime-highlight);
+}
+.translationPos[data-pos = 'AUX'],
+.translationPos[data-pos = 'VERB'] {
+    color: var(--green);
+    background-color: var(--green-highlight);
+}
+.translationPos[data-pos = 'CCONJ'],
+.translationPos[data-pos = 'SCONJ']{
+    color: var(--blue);
+    background-color: var(--blue-highlight);
+}
+
+.translationPos[data-pos = 'ADP'] {
+    color: var(--purple);
+    background-color: var(--purple-highlight);
+} */
+
+@supports (background: -webkit-named-image(i)) {
+    #wordInfo,
+    #wordInfo * {
+        transition: none !important;
+    }
+}
