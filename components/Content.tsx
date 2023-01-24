@@ -144,7 +144,7 @@ const Content = () => {
 			);
 
 			if (dynamicGrading) {
-				const response = await fetch("/api/translate", {
+				const response = await fetch(`${process.env.APP_URL}/api/translate`, {
 					method: "POST",
 					headers: {
 						"Content-Type": "application/json"
@@ -331,7 +331,7 @@ const Content = () => {
 	// Load sentences from API
 	useEffect(() => {
 		(async () => {
-			const response = await fetch("/api/sentences");
+			const response = await fetch(`${process.env.APP_URL}/api/sentences`);
 			const data = await response.json();
 			if (data.error) {
 				return;

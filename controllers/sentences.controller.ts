@@ -19,7 +19,7 @@ export const getSentences = async (count: number) => {
 
     const [spanishTranslationData, englishTranslationData] = await Promise.all([
         Promise.all(sentences.map(async (sentence) => {
-          const res = await fetch('http://localhost:3000/api/dictionary', {
+          const res = await fetch(`${process.env.APP_URL}/api/dictionary`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -33,7 +33,7 @@ export const getSentences = async (count: number) => {
           return data;
         })),
         Promise.all(sentences.map(async (sentence) => {
-          const res = await fetch('http://localhost:3000/api/dictionary', {
+          const res = await fetch(`${process.env.APP_URL}/api/dictionary`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
