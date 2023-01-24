@@ -1,5 +1,4 @@
 import { NextApiRequest as Req, NextApiResponse as Res } from 'next'
-import rateLimit from 'express-rate-limit'
 import { isArrayOf, isString } from '../../utils/typeguards.utils'
 import { getDictionary } from '../../controllers/dictionary.controller'
 
