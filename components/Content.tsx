@@ -447,31 +447,38 @@ const Content = () => {
 				className={styles.promptText}
 				data-transition-status={promptTextStatus}
 			>
-				{balancedPromptText.length &&
-					balancedPromptText.map((line, lineIndex) => (
-						<>
-							<span className={styles.promptTextLine}>
-								{line.map(({ word, tokens, whitespace }, wordIndex) => (
-									<span
-										className={styles.promptTextWord}
-										data-word={word}
-										data-pos={tokens[0].pos}
-										data-space={`${whitespace}`}
-										onClick={(e) =>
-											wordInfoFunctions.current.handlePromptClick(
-												e,
-												lineIndex,
-												wordIndex
-											)
-										}
-									>
-										{word}
-									</span>
-								))}
-							</span>
-							<br />
-						</>
-					))}
+				{promptString && balancedPromptText.length
+					? <span id = {styles.promptContainer}>
+                        {
+                            balancedPromptText.map((line, lineIndex) => (
+                            <>
+                                <span className={styles.promptTextLine}>
+                                    {line.map(({ word, tokens, whitespace }, wordIndex) => (
+                                        <span
+                                            className={styles.promptTextWord}
+                                            data-word={word}
+                                            data-pos={tokens[0].pos}
+                                            data-space={`${whitespace}`}
+                                            onClick={(e) =>
+                                                wordInfoFunctions.current.handlePromptClick(
+                                                    e,
+                                                    lineIndex,
+                                                    wordIndex
+                                                )
+                                            }
+                                        >
+                                            {word}
+                                        </span>
+                                    ))}
+                                </span>
+                                <br />
+                            </>
+                        ))}
+                    </span>
+                    : <span id = {styles.loadingText}>
+                        Retrieving sentences . . .
+                    </span>
+                }
 			</p>
 			<textarea
 				ref={inputRef}
@@ -481,6 +488,7 @@ const Content = () => {
 				onChange={handleInput}
 				readOnly={isChecked}
 				value={inputText}
+                placeholder = {sentenceIndex === 0 ? 'Type your answer here' : ''}
 			/>
 			<div
 				ref={correctTranslationRef}
