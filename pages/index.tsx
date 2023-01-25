@@ -12,11 +12,11 @@ export default function Index() {
 	return (
 		<>
 			<Head>
-				<title>Sentence Miner</title>
+				<title>Syntilla</title>
 				<meta name="viewport" content="width=device-width, initial-scale=1" />
 			</Head>
             <header id = {styles.header}>
-                <h1>Syntilla</h1>
+                <h1 data-text = 'Syntilla'>Syntilla</h1>
                 <button
                     id = {styles.settingsButton}
                     onClick = {() => setModalStatus('open')}

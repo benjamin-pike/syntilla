@@ -2,6 +2,8 @@
     box-sizing: content-box;
     padding: 0;
     margin: 0;
+    display: flex;
+    justify-content: center;
     color: white;
     font-size: 1.75rem;
     font-weight: 400;
@@ -13,6 +15,37 @@
         width 200ms ease,
         transform 500ms ease,
         opacity 500ms ease,
+}
+
+.promptText:has(#loadingText) {
+    text-align: center;
+}
+
+#loadingText {
+    position: relative;
+    font-weight: 500;
+    font-size: 1rem;
+}
+
+@keyframes loading {
+    0% {
+        width: 0.1rem;
+    }
+    100% {
+        width: 100%;
+    }
+}
+
+#loadingText::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -0.5rem;
+    width: 100%;
+    height: 0.1rem;
+    border-radius: 100vmax;
+    background: white;
+    animation: loading 1s ease-in-out infinite alternate-reverse;
 }
 
 .promptText[data-transition-status = 'fade-out'] {
@@ -46,6 +79,17 @@
         height 500ms ease;
 }
 
+#promptContainer {
+    width: fit-content;
+    box-shadow: 
+        0 0 0 1.5px #30363C,
+        0 0 0.25rem 0.125rem black inset,
+        0.25rem 0.25rem 0.25rem black,
+        0.25rem 0.25rem 2.5rem black;
+    padding: 2.5rem 3rem;
+    border-radius: 1rem;
+}
+
 .promptTextLine {
     white-space: nowrap;
     position: relative;
@@ -60,6 +104,11 @@
     color: transparent;
     transition: 
         margin 500ms ease,
+        opacity 500ms ease;
+}
+
+.promptText[data-transition-status = 'transitioning'] .promptTextWord {
+    transition: 
         opacity 500ms ease;
 }
 
@@ -156,6 +205,7 @@
     border: none;
     color: white;
     width:  70%;
+    max-width: 75rem;
     font-size: 2em;
     font-weight: 500;
     text-align: center;
