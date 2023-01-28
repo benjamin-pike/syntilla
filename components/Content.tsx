@@ -442,13 +442,14 @@ const Content = () => {
 					translations={translations ?? null}
 				/>
 			)}
-			<p
-				ref={promptTextRef}
-				className={styles.promptText}
-				data-transition-status={promptTextStatus}
-			>
-				{promptString && balancedPromptText.length
-					? <span id = {styles.promptContainer}>
+			{promptString && balancedPromptText.length ? 
+                <p
+                    ref={promptTextRef}
+                    className={styles.promptText}
+                    data-transition-status={promptTextStatus}
+                >
+                    
+                        <span id = {styles.promptContainer}>
                         {
                             balancedPromptText.map((line, lineIndex) => (
                             <>
@@ -475,11 +476,14 @@ const Content = () => {
                             </>
                         ))}
                     </span>
-                    : <span id = {styles.loadingText}>
-                        Retrieving sentences . . .
-                    </span>
-                }
-			</p>
+                </p>
+                : <div
+                    id = {styles.loadingText}
+                >
+                    <p>Retrieving sentences . . .</p>
+                    <div id = {styles.loadingTextGlow} />
+                </div>
+            }
 			<textarea
 				ref={inputRef}
 				className={styles.input}
