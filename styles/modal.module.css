@@ -50,7 +50,7 @@
 }
 
 .modal {
-    padding: 2rem 2.5rem;
+    padding: 2.25rem 2.5rem;
     background-color: rgba(0, 0, 0, 0.75);
     box-shadow: 
         0 0 0 1.5px #30363C,
@@ -75,9 +75,13 @@
     color: white;
     font-weight: 600;    
     font-size: 1.1rem;
-    padding: 0.3rem;
-    border-top: 0.5px solid white;
-    border-bottom: 2px solid white;
+    padding: 0.85rem 1.5rem;
+    border-radius: 0.75rem;
+    box-shadow:
+        0 0 0 0.075rem rgb(255 255 255 / 0.25),
+        0 0 0.25em rgb( 200 200 255 / 0.05 ),
+        0 0 1em rgb( 200 200 255 / 0.1 ),
+        0 0 2em rgb( 200 200 255 / 0.15 );
     user-select: none;
 }
 
