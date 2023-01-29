@@ -156,43 +156,43 @@
 
 .promptGlow[data-gradient = '1']::before,
 .promptGlow[data-gradient = '1']::after {
-    background-image: linear-gradient(165deg, var(--purple), var(--red));
+    background-image: linear-gradient(165deg, var(--pink), var(--red), var(--red), var(--orange));
     animation: gradient-rotation var(--total-gradient-period) linear infinite;
 }
 
 .promptGlow[data-gradient = '2']::before,
 .promptGlow[data-gradient = '2']::after {
-    background-image: linear-gradient(165deg, var(--red), var(--orange));
+    background-image: linear-gradient(165deg, var(--red), var(--orange), var(--orange), var(--yellow));
     animation: gradient-rotation var(--total-gradient-period) linear calc(1 * var(--gradient-period)) infinite;
 }
 
 .promptGlow[data-gradient = '3']::before,
 .promptGlow[data-gradient = '3']::after {
-    background-image: linear-gradient(165deg, var(--orange), var(--yellow));
+    background-image: linear-gradient(165deg, var(--orange), var(--yellow), var(--yellow), var(--lime));
     animation: gradient-rotation var(--total-gradient-period) linear calc(2 * var(--gradient-period)) infinite;
 }
 
 .promptGlow[data-gradient = '4']::before,
 .promptGlow[data-gradient = '4']::after {
-    background-image: linear-gradient(165deg, var(--yellow), var(--lime));
+    background-image: linear-gradient(165deg, var(--yellow), var(--lime), var(--lime), var(--green));
     animation: gradient-rotation var(--total-gradient-period) linear calc(3 * var(--gradient-period)) infinite;
 }
 
 .promptGlow[data-gradient = '5']::before,
 .promptGlow[data-gradient = '5']::after {
-    background-image: linear-gradient(165deg, var(--lime), var(--green));
+    background-image: linear-gradient(165deg, var(--lime), var(--green), var(--green), var(--teal));
     animation: gradient-rotation var(--total-gradient-period) linear calc(4 * var(--gradient-period)) infinite;
 }
 
 .promptGlow[data-gradient = '6']::before,
 .promptGlow[data-gradient = '6']::after {
-    background-image: linear-gradient(165deg, var(--green), var(--blue));
+    background-image: linear-gradient(165deg, var(--teal), var(--blue), var(--blue), var(--indigo));
     animation: gradient-rotation var(--total-gradient-period) linear calc(5 * var(--gradient-period)) infinite;
 }
 
 .promptGlow[data-gradient = '7']::before,
 .promptGlow[data-gradient = '7']::after {
-    background-image: linear-gradient(165deg, var(--blue), var(--purple));
+    background-image: linear-gradient(165deg, var(--indigo), var(--purple), var(--purple), var(--pink));
     animation: gradient-rotation var(--total-gradient-period) linear calc(6 * var(--gradient-period)) infinite;
 }
 
@@ -227,8 +227,8 @@
     opacity: 0
 }
 
-#promptTextContainer:has(.promptTextWord:hover) .promptGlowHover::before,
-#promptTextContainer:has(.promptTextWord:hover) .promptGlowHover::after {
+#promptTextContainer:has(.promptTextWord:hover) .promptGlowHover[data-active = 'true']::before,
+#promptTextContainer:has(.promptTextWord:hover) .promptGlowHover[data-active = 'true']::after {
     opacity: 1;
 }
 

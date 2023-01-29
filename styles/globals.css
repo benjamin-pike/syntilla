@@ -3,16 +3,19 @@
 :root {
 	--bg-100: rgb(2, 6, 12);
 	--bg-200: rgb(12, 12, 20);
-	--blue: hsl(211, 100%, 50%);
 	--blue-dark: hsl(219, 100%, 49%);
 	--blue-highlight: rgb(0 123 255 / 0.1);
 
-	--red: rgb(255, 51, 102);
+	--red: hsl(345, 100%, 60%);
 	--orange: hsl(24, 100%, 56%);
 	--yellow: hsl(45, 100%, 50%);
     --lime: hsl(75, 100%, 50%);
 	--green: hsl(140, 65%, 55%);
+    --teal: hsl(180, 100%, 35%);
+    --blue: hsl(211, 100%, 50%);
+    --indigo: hsl(240, 100%, 60%);
     --purple: hsl(270, 100%, 60%);
+    --pink: hsl(300, 100%, 50%);
 
 	--red-highlight: rgb(255 51 102 / 0.1);
 	--orange-highlight: rgb(255 120 31 / 0.1);

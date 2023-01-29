@@ -66,7 +66,7 @@ const Modal: React.FC<ModalProps> = ({ modalStatus, setModalStatus }) => {
                             className = {styles.closeButton}
                             onClick = {handleModalClose}
                         >
-                            Close
+                            ✕
                         </button>
                     </div>
                 </div>

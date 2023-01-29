@@ -9,7 +9,7 @@ export default async function handler(
     switch (req.method) {
         case 'POST':
             const { lemmas, lang } = req.body
-
+            console.log(lemmas)
             if (!isArrayOf(lemmas, isString)) {
                 res.status(400).end('Invalid lemma array')
                 return
