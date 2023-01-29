@@ -1,65 +1,65 @@
-import { MongoClient } from 'mongodb';
+import { MongoClient, ObjectId } from 'mongodb';
+import { IDictionaryEntry, ISentence, IWord } from '../types/types';
 
 if (!process.env.MONGO_URI) {
     throw new Error('MONGO_URI must be defined in environment variables')
 }
 const url = process.env.MONGO_URI
 
-export const getSentences = async (count: number) => {
+export const getSentences = async (count: number, dueSentenceIds: string[]) => {
     const client = new MongoClient(url)
     await client.connect()
 
     const db = client.db('syntilla')
     const collection = db.collection('sentences')
-
-    const sentences = await collection.aggregate([
+    
+    const objDueSentenceIds = dueSentenceIds.map((id) => new ObjectId(id))
+    const dueSentences = await collection.find({ _id: { $in: objDueSentenceIds } }).toArray()
+    const newSentences = await collection.aggregate([
         { $sample: { size: count } }
-    ]).toArray()
+    ]).toArray().then(documents => documents
+        .filter((document) => !objDueSentenceIds.includes(document._id))
+        .slice(0, count - dueSentences.length)
+    )
+
+    const sentences = [...dueSentences, ...newSentences].sort(() => Math.random() - 0.5)
+
+    await client.close()
 
     const [spanishTranslationData, englishTranslationData] = await Promise.all([
-        Promise.all(sentences.map(async (sentence) => {
-          const res = await fetch(`${process.env.NEXT_PUBLIC_ROOT_URL}/api/dictionary`, {
+        fetch(`${process.env.NEXT_PUBLIC_ROOT_URL}/api/dictionary`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
             },
             body: JSON.stringify({
               lang: 'es',
-              lemmas: sentence['es'].map((word: any) => word.tokens[0].lemma),
+              lemmas: [...new Set(sentences.map(sentence => sentence['es'].map((word: IWord) => word.tokens[0].lemma)).flat())]
             }),
-          });
-          const data = await res.json();
-          return data;
-        })),
-        Promise.all(sentences.map(async (sentence) => {
-          const res = await fetch(`${process.env.NEXT_PUBLIC_ROOT_URL}/api/dictionary`, {
+          }).then((res) => res.json()),
+        fetch(`${process.env.NEXT_PUBLIC_ROOT_URL}/api/dictionary`, {
             method: 'POST',
             headers: {
-              'Content-Type': 'application/json',
+                'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-              lang: 'en',
-              lemmas: sentence['en'].map((word: any) => word.tokens[0].lemma),
+                lang: 'en',
+                lemmas: [...new Set(sentences.map(sentence => sentence['en'].map((word: IWord) => word.tokens[0].lemma)).flat())]
             }),
-          });
-          const data = await res.json();
-          return data;
-        }))
+        }).then((res) => res.json())
       ]);
 
     const responseData = sentences.map((sentence, i) => ({
         ...sentence,
         translations: {
             'es': sentence['es'].map((word: any) =>
-                spanishTranslationData[i].find((translation: any) => translation.lemma === word.tokens[0].lemma) || null
+                spanishTranslationData.find((translation: IDictionaryEntry) => translation.lemma === word.tokens[0].lemma) || null
             ),
             'en': sentence['en'].map((word: any) =>
-                englishTranslationData[i].find((translation: any) => translation.lemma === word.tokens[0].lemma) || null
+                englishTranslationData.find((translation: IDictionaryEntry) => translation.lemma === word.tokens[0].lemma) || null
             )
         }
     }))
-
-    client.close()
 
     return responseData
 }

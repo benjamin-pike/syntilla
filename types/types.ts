@@ -25,6 +25,7 @@ export interface IToken {
 }
 
 export interface ISentence {
+    _id: string;
 	es: Sentence;
 	en: Sentence;
     translations: {
@@ -50,3 +51,13 @@ interface ISenseChunk {
     sense: string;
     translations: string[];
 }
+
+export interface IProgressEntry {
+    id: string;
+    dir: string;
+    acc: number;
+    time: number;
+    ttc: number;
+}
+
+export type Progress = IProgressEntry[];
