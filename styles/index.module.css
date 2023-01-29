@@ -108,6 +108,47 @@
         drop-shadow(0 0 2em rgb(200 200 255 / 0.75));
 }
 
+#donateButton {
+    margin-right: 0.5rem;
+    margin-left: auto;
+    width: fit-content;
+    height: fit-content;
+    background-color: transparent;
+    outline: none;
+    border: none;
+    cursor: pointer;
+}
+
+#donateButton > span {
+    position: relative;
+    display: block;
+    height: 2rem;
+    width: 2rem;
+    aspect-ratio: 1;
+}
+
+#donateButton > span > svg {
+    position: absolute;
+    inset: 0;
+    height: 2rem;
+    background-color: transparent;
+}
+
+#donateButton #bmcBase {
+    opacity: 0.5;
+}
+
+#donateButton #bmcHover {
+    opacity: 0;
+    transition: opacity 200ms ease;
+}
+
+#donateButton > span:hover > #bmcHover {
+    opacity: 1;
+}
+
+
+
 @media (max-width: 768px){
     .main{
         --gap: 2.5rem;

@@ -28,6 +28,8 @@ const Content = () => {
 	const [highlightedWord, setHighlightedWord] = useState<[number, number]>([0, 0]);
 
 	const promptTextRef = useRef<HTMLParagraphElement>(null);
+    const promptTextContainerRef = useRef<HTMLSpanElement>(null);
+    const promptGlowHoverRef = useRef<HTMLSpanElement>(null);
 	const inputRef = useRef<HTMLTextAreaElement>(null);
 	const correctTranslationRef = useRef<HTMLDivElement>(null);
 	const percentageRef = useRef<HTMLParagraphElement>(null);
@@ -278,7 +280,7 @@ const Content = () => {
 
 	// Calculate the number of lines the prompt text should be split into based on the width of the container
 	const calculateTextLines = () => {
-		if (!promptTextRef.current || !correctTranslationRef.current) {
+		if (!promptTextRef.current || !promptTextContainerRef.current || !inputRef.current || !correctTranslationRef.current) {
 			return;
 		}
 
@@ -309,12 +311,16 @@ const Content = () => {
 		let promptLines = Math.ceil(promptSentenceLength / promptContainerWidth);
 		let translationLines = Math.ceil(translationSentenceLength / translationContainerWidth);
 
-		const promptIncrease = promptSpanElements.reduce((increase, span) => {
-			if (span.offsetWidth > promptContainerWidth && promptTextLines !== 0) {
-				increase = 1;
-			}
-			return increase;
-		}, 0);
+        const { font, fontWeight } = getComputedStyle(promptTextRef.current);
+        const prospectiveLinesArray = balanceText(promptWordArray, promptLines)
+        const prospectiveLinesString = prospectiveLinesArray.map(line => line.reduce(
+            (string, { word, whitespace }) => (string += word + (whitespace ? " " : "")),
+            ""
+        ));
+        const maxWidth = Math.max(...prospectiveLinesString.map(line => measureText(line, 0, `${fontWeight} ${font}`)));
+        const padding = 2 * parseInt(getComputedStyle(promptTextContainerRef.current).paddingLeft)
+        console.log(padding)
+        const promptIncrease = padding + maxWidth > inputRef.current.offsetWidth ? 1 : 0;
 
 		const translationIncrease = translationSpanElements.reduce((increase, span) => {
 			if (span.offsetWidth > translationContainerWidth && promptTextLines !== 0) {
@@ -418,6 +424,13 @@ const Content = () => {
 
 			wordInfoFunctions.current.closeWordInfo();
 			setHighlightedWord([0, 0]);
+
+            let debounceDisableTransitions;
+            promptTextContainerRef.current?.classList.add(styles.disabledTransitions)
+            clearTimeout(debounceDisableTransitions)
+            debounceDisableTransitions = setTimeout(() => {
+                promptTextContainerRef.current?.classList.remove(styles.disabledTransitions)
+            }, 100)
         }
 
 		window.onclick = (e: MouseEvent) => {
@@ -430,6 +443,33 @@ const Content = () => {
 			}
 		};
 	}
+    const setPromptGlowHoverGradient = (pos: string) => {
+        if (!promptGlowHoverRef.current) return
+
+        const gradientsMap: Record<string, number> = {
+            NOUN: 1,
+            PROPN: 1,
+            DET: 2,
+            PRON: 2,
+            ADJ: 3,
+            NUM: 3,
+            ADV: 4,
+            AUX: 5,
+            VERB: 5,
+            CCONJ: 6,
+            SCONJ: 6,
+            ADP: 7
+        }
+
+        if (!gradientsMap[pos]) return
+
+        promptGlowHoverRef.current.setAttribute(
+            'data-gradient',
+            `${gradientsMap[pos]}`
+        )
+        console.log(promptGlowHoverRef.current.getAttribute('data-gradient'))
+    }
+        
 
 	return (
 		<>
@@ -448,33 +488,51 @@ const Content = () => {
                     className={styles.promptText}
                     data-transition-status={promptTextStatus}
                 >
-                    
-                        <span id = {styles.promptContainer}>
-                        {
-                            balancedPromptText.map((line, lineIndex) => (
-                            <>
-                                <span className={styles.promptTextLine}>
-                                    {line.map(({ word, tokens, whitespace }, wordIndex) => (
-                                        <span
-                                            className={styles.promptTextWord}
-                                            data-word={word}
-                                            data-pos={tokens[0].pos}
-                                            data-space={`${whitespace}`}
-                                            onClick={(e) =>
-                                                wordInfoFunctions.current.handlePromptClick(
-                                                    e,
-                                                    lineIndex,
-                                                    wordIndex
-                                                )
-                                            }
-                                        >
-                                            {word}
-                                        </span>
-                                    ))}
-                                </span>
-                                <br />
-                            </>
-                        ))}
+                    <span
+                        ref=  {promptTextContainerRef}
+                        id = {styles.promptTextContainer}
+                    >
+                        <div id = {styles.promptGlowGradientRotation}>
+                            <span className = {styles.promptGlow} data-gradient = '1' />
+                            <span className = {styles.promptGlow} data-gradient = '2' />
+                            <span className = {styles.promptGlow} data-gradient = '3' />
+                            <span className = {styles.promptGlow} data-gradient = '4' />
+                            <span className = {styles.promptGlow} data-gradient = '5' />
+                            <span className = {styles.promptGlow} data-gradient = '6' />
+                            <span className = {styles.promptGlow} data-gradient = '7' />
+                        </div>
+                        <span 
+                                ref = {promptGlowHoverRef}
+                                className = {styles.promptGlow + ' ' + styles.promptGlowHover}
+                            />
+                        <span id = {styles.promptTextWrapper}>
+                            {
+                                balancedPromptText.map((line, lineIndex) => (
+                                <>
+                                    <span className={styles.promptTextLine}>
+                                        {line.map(({ word, tokens, whitespace }, wordIndex) => (
+                                            <span
+                                                className={styles.promptTextWord}
+                                                data-word={word}
+                                                data-pos={tokens[0].pos}
+                                                data-space={`${whitespace}`}
+                                                onClick={(e) =>
+                                                    wordInfoFunctions.current.handlePromptClick(
+                                                        e,
+                                                        lineIndex,
+                                                        wordIndex
+                                                    )
+                                                }
+                                                onMouseEnter={() => setPromptGlowHoverGradient(tokens[0].pos)}
+                                            >
+                                                {word}
+                                            </span>
+                                        ))}
+                                    </span>
+                                    <br />
+                                </>
+                            ))}
+                        </span>
                     </span>
                 </p>
                 : <div
@@ -484,16 +542,16 @@ const Content = () => {
                     <div id = {styles.loadingTextGlow} />
                 </div>
             }
-			<textarea
-				ref={inputRef}
-				className={styles.input}
-				rows={1}
-				spellCheck={false}
-				onChange={handleInput}
-				readOnly={isChecked}
-				value={inputText}
+            <textarea
+                ref={inputRef}
+                className={styles.input}
+                rows={1}
+                spellCheck={false}
+                onChange={handleInput}
+                readOnly={isChecked}
+                value={inputText}
                 placeholder = {sentenceIndex === 0 ? 'Type your answer here' : ''}
-			/>
+            />
 			<div
 				ref={correctTranslationRef}
 				className={styles.correctTranslation}

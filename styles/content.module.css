@@ -1,11 +1,12 @@
 .promptText {
+    position: relative;
     box-sizing: content-box;
     padding: 0;
     margin: 0;
     display: flex;
     justify-content: center;
     color: white;
-    font-size: 1.75rem;
+    font-size: 1.5rem;
     font-weight: 400;
     width: 70%;
     max-width: 900px;
@@ -135,15 +136,151 @@
         height 500ms ease;
 }
 
-#promptContainer {
+@keyframes gradient-rotation {
+    0% {
+        opacity: 0
+    }
+    7.14% {
+        opacity: 1
+    }
+    14.28% {
+        opacity: 1
+    }
+    21.42% {
+        opacity: 0
+    }
+    100% {
+        opacity: 0
+    }
+}
+
+.promptGlow[data-gradient = '1']::before,
+.promptGlow[data-gradient = '1']::after {
+    background-image: linear-gradient(165deg, var(--purple), var(--red));
+    animation: gradient-rotation var(--total-gradient-period) linear infinite;
+}
+
+.promptGlow[data-gradient = '2']::before,
+.promptGlow[data-gradient = '2']::after {
+    background-image: linear-gradient(165deg, var(--red), var(--orange));
+    animation: gradient-rotation var(--total-gradient-period) linear calc(1 * var(--gradient-period)) infinite;
+}
+
+.promptGlow[data-gradient = '3']::before,
+.promptGlow[data-gradient = '3']::after {
+    background-image: linear-gradient(165deg, var(--orange), var(--yellow));
+    animation: gradient-rotation var(--total-gradient-period) linear calc(2 * var(--gradient-period)) infinite;
+}
+
+.promptGlow[data-gradient = '4']::before,
+.promptGlow[data-gradient = '4']::after {
+    background-image: linear-gradient(165deg, var(--yellow), var(--lime));
+    animation: gradient-rotation var(--total-gradient-period) linear calc(3 * var(--gradient-period)) infinite;
+}
+
+.promptGlow[data-gradient = '5']::before,
+.promptGlow[data-gradient = '5']::after {
+    background-image: linear-gradient(165deg, var(--lime), var(--green));
+    animation: gradient-rotation var(--total-gradient-period) linear calc(4 * var(--gradient-period)) infinite;
+}
+
+.promptGlow[data-gradient = '6']::before,
+.promptGlow[data-gradient = '6']::after {
+    background-image: linear-gradient(165deg, var(--green), var(--blue));
+    animation: gradient-rotation var(--total-gradient-period) linear calc(5 * var(--gradient-period)) infinite;
+}
+
+.promptGlow[data-gradient = '7']::before,
+.promptGlow[data-gradient = '7']::after {
+    background-image: linear-gradient(165deg, var(--blue), var(--purple));
+    animation: gradient-rotation var(--total-gradient-period) linear calc(6 * var(--gradient-period)) infinite;
+}
+
+.promptGlowHover::before,
+.promptGlowHover::after {
+    animation: none !important;
+}
+
+#promptTextContainer {
+    --border-radius: 1rem;
+    --start-color: var(--purple);
+    --end-color: var(--red);
+
+    --gradient: linear-gradient(165deg,var(--start-color),var(--end-color));
+    --reverse-gradient: linear-gradient(165deg,var(--end-color),var(--start-color));
+
+    display: block;
+    position: relative;
     width: fit-content;
-    box-shadow: 
+    height: fit-content;
+    padding: 1.5px;
+    border-radius: calc(var(--border-radius) + 0.1rem);
+}
+
+#promptGlowGradientRotation,
+.promptGlowHover::before,
+.promptGlowHover::after {
+    transition: opacity 500ms ease;
+}
+
+#promptTextContainer:has(.promptTextWord:hover) #promptGlowGradientRotation {
+    opacity: 0
+}
+
+#promptTextContainer:has(.promptTextWord:hover) .promptGlowHover::before,
+#promptTextContainer:has(.promptTextWord:hover) .promptGlowHover::after {
+    opacity: 1;
+}
+
+.promptGlow {
+    --gradient-period: 5s;
+    --total-gradient-period: calc(var(--gradient-period) * 7);
+    display: block;
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.promptGlow::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: calc(var(--border-radius) + 0.1rem);
+    opacity: 0;
+}
+
+.promptGlow::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 75%;
+    height: 35%;
+    transform: translate(-50%, -50%);
+    z-index: 0;
+    filter: blur(3rem);
+    animation: gradient-change 10s linear infinite;
+    opacity: 0;
+}
+
+#promptTextWrapper {
+    display: block;
+    position: relative;
+    background-color: var(--bg-100);
+    /* box-shadow: 
         0 0 0 1.5px #30363C,
         0 0 0.25rem 0.125rem black inset,
         0.25rem 0.25rem 0.25rem black,
-        0.25rem 0.25rem 2.5rem black;
-    padding: 2.5rem 3rem;
-    border-radius: 1rem;
+        0.25rem 0.25rem 2.5rem black; */
+    border-radius: var(--border-radius);
+    box-shadow: 
+        0 0 0.25rem 0.125rem black inset,
+        1rem 1rem 1rem rgb(0 0 0 / 0.1);
+    padding: 1.5em 2em;
+    z-index: 1;
 }
 
 .promptTextLine {
@@ -425,7 +562,7 @@
 
 @media (max-width: 1024px) {
     .promptText {
-        font-size: 1.5rem;
+        font-size: 1.25rem;
     }
     .input{
         font-size: 1.5rem;
@@ -442,7 +579,7 @@
 
 @media (max-width: 768px) {
     .promptText {
-        font-size: 1.25rem;
+        font-size: 1rem;
     }
     .input{
         font-size: 1.25rem;
@@ -468,7 +605,7 @@
 
 @media (max-width: 480px) {
     .promptText {
-        font-size: 1rem;
+        font-size: 0.85rem;
         width: 80%;
     }
     .input{
@@ -788,4 +925,8 @@ p.translation::before {
     #wordInfo * {
         transition: none !important;
     }
+}
+
+.disabledTransitions * {
+    transition: none !important;
 }

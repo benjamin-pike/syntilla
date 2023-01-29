@@ -2,9 +2,11 @@ import Head from 'next/head'
 import styles from '../styles/index.module.css'
 import Content from '../components/Content'
 import Modal from '../components/Modal'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { HiOutlineCog6Tooth } from 'react-icons/hi2'
 import { SettingsContextProvider } from '../store/settings.context'
+import BMCLogoBase from '../public/bmc-logo-no-bg.svg'
+import BMCLogoHover from '../public/bmc-logo-yellow-bg.svg'
 
 export default function Index() {
     const [modalStatus, setModalStatus] = useState<'open' | 'closing' | 'closed'>('closed')
@@ -17,6 +19,15 @@ export default function Index() {
 			</Head>
             <header id = {styles.header}>
                 <h1 data-text = 'Syntilla'>Syntilla</h1>
+                <button
+                    id = {styles.donateButton}
+                    onClick = {() => window.open('https://www.buymeacoffee.com/benjpike', '_blank')}
+                >
+                    <span>
+                        <BMCLogoBase id = { styles.bmcBase } />
+                        <BMCLogoHover id = { styles.bmcHover } />
+                    </span>
+                </button>
                 <button
                     id = {styles.settingsButton}
                     onClick = {() => setModalStatus('open')}
