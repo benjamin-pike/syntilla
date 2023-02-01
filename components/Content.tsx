@@ -7,8 +7,8 @@ import { Language, Sentence, ISentence } from "../types/types";
 import { measureText } from "../utils/measure-text.utils";
 import { balanceText } from "../utils/balance-text.utils";
 import { WordInfoPopup } from "./WordInfoPopup";
-import styles from "../styles/content.module.css";
 import { PromptGlow } from "./PromptGlow";
+import styles from "../styles/content.module.css";
 
 const Content = () => {
 	const { dynamicGrading, direction } = useSettings();
@@ -36,7 +36,7 @@ const Content = () => {
 	const promptTextContainerRef = useRef<HTMLSpanElement>(null);
 	const promptGlowHoverRef = useRef<HTMLSpanElement>(null);
 	const inputRef = useRef<HTMLTextAreaElement>(null);
-	const correctTranslationRef = useRef<HTMLDivElement>(null);
+	const answerRef = useRef<HTMLDivElement>(null);
 	const percentageRef = useRef<HTMLParagraphElement>(null);
 
 	const wordInfoFunctions = useRef({
@@ -115,9 +115,9 @@ const Content = () => {
 
 	// Upon button click, if the answer is not checked, grade the answer, else move to the next sentence
 	const handleButtonClick = async () => {
-		if (!inputText || !correctTranslationRef.current) return;
+		if (!inputText || !answerRef.current) return;
 
-		const paragraphElement = correctTranslationRef.current.querySelector("p");
+		const paragraphElement = answerRef.current.querySelector("p");
 
 		if (!paragraphElement) return;
 
@@ -186,7 +186,7 @@ const Content = () => {
 
 			setPercentage(percentage);
 
-			correctTranslationRef.current.style.height = paragraphElement.offsetHeight + "px";
+			answerRef.current.style.height = paragraphElement.offsetHeight + "px";
 
             updateProgress({
                 sentenceId: sentences[sentenceIndex]._id,
@@ -207,7 +207,7 @@ const Content = () => {
 			setPromptTextStatus("fade-out");
 
 			resetSettings();
-			correctTranslationRef.current.style.height = 0 + "px";
+			answerRef.current.style.height = 0 + "px";
 
 			setTimeout(() => {
 				if (!promptTextRef.current) {
@@ -238,17 +238,17 @@ const Content = () => {
 	};
 
 	const scaleAnswerContainer = () => {
-		const paragraphElement = correctTranslationRef.current?.querySelector("p");
+		const paragraphElement = answerRef.current?.querySelector("p");
 
-		if (!correctTranslationRef.current || !paragraphElement || !isChecked) {
+		if (!answerRef.current || !paragraphElement || !isChecked) {
 			return;
 		}
-		const transition = getComputedStyle(correctTranslationRef.current).transition;
-		correctTranslationRef.current.style.transition = "none";
+		const transition = getComputedStyle(answerRef.current).transition;
+		answerRef.current.style.transition = "none";
 
-		correctTranslationRef.current.style.height = paragraphElement.offsetHeight + "px";
+		answerRef.current.style.height = paragraphElement.offsetHeight + "px";
 
-		correctTranslationRef.current.style.transition = transition;
+		answerRef.current.style.transition = transition;
 	};
 
 	// Handles input changes and scales text area (if 'enter' is pressed, it will submit the answer)
@@ -286,40 +286,38 @@ const Content = () => {
 
 	// Calculate the number of lines the prompt text should be split into based on the width of the container
 	const calculateTextLines = () => {
+        console.log("calculating text lines")
 		if (
 			!promptTextRef.current ||
 			!promptTextContainerRef.current ||
 			!inputRef.current ||
-			!correctTranslationRef.current
+			!answerRef.current
 		) {
 			return;
 		}
-
-		const promptContainerWidth = promptTextRef.current.offsetWidth;
-		const promptSpanElements: HTMLSpanElement[] = Array.from(
-			promptTextRef.current.querySelectorAll(`span.${styles.promptTextLine}`)
-		);
+        console.log("calculating text lines pass", promptTextRef.current.textContent, answerString)
+        const promptContainerWidth = promptTextRef.current.offsetWidth;
 		const promptSentenceLength = measureText(
 			promptString,
 			0,
 			getComputedStyle(promptTextRef.current).font
 		);
 
-		const translationContainerWidth = correctTranslationRef.current.offsetWidth;
+        const translationContainerWidth = answerRef.current.offsetWidth;
 		const translationSpanElements = Array.from(
-			correctTranslationRef.current.querySelectorAll("span")
+			answerRef.current.querySelectorAll("span")
 		);
 		const translationSentenceLength = measureText(
 			answerString,
 			0,
-			getComputedStyle(correctTranslationRef.current).font
+			getComputedStyle(answerRef.current).font
 		);
 
-		if (promptSentenceLength === 0 || translationSentenceLength === 0) {
+        if (promptSentenceLength === 0 || translationSentenceLength === 0) {
 			return;
 		}
 
-		let promptLines = Math.ceil(promptSentenceLength / promptContainerWidth);
+        let promptLines = Math.ceil(promptSentenceLength / promptContainerWidth);
 		let translationLines = Math.ceil(translationSentenceLength / translationContainerWidth);
 
 		const { font, fontWeight } = getComputedStyle(promptTextRef.current);
@@ -334,7 +332,6 @@ const Content = () => {
 			...prospectiveLinesString.map((line) => measureText(line, 0, `${fontWeight} ${font}`))
 		);
 		const padding = 2 * parseInt(getComputedStyle(promptTextContainerRef.current).paddingLeft);
-		console.log(padding);
 		const promptIncrease = padding + maxWidth > inputRef.current.offsetWidth ? 1 : 0;
 
 		const translationIncrease = translationSpanElements.reduce((increase, span) => {
@@ -362,8 +359,8 @@ const Content = () => {
                 },
                 body: JSON.stringify({ dueSentenceIds: dueSentences }),
             });
-            console.timeEnd("fetch")
-			const data = await response.json();
+
+            const data = await response.json();
 			
             if (data.error) return;
 
@@ -389,6 +386,8 @@ const Content = () => {
 
 	// Recalculate text lines when the prompt text changes
 	useEffect(() => {
+        if (sentenceIndex !== 0) return 
+        
 		let shouldRecalculate = true;
 		let observer = new MutationObserver(() => {
 			if (shouldRecalculate) {
@@ -402,9 +401,13 @@ const Content = () => {
 			let interval: ReturnType<typeof setInterval>;
 
 			const checkForPromptText = () => {
-				if (promptTextRef.current?.textContent) {
-					calculateTextLines();
+                console.log(promptString, answerString)
+				if (
+                    promptTextRef.current?.textContent && 
+                    answerRef.current?.textContent
+                ) {
 					observer.observe(promptTextRef.current, { characterData: true, subtree: true });
+                    calculateTextLines();
 					clearInterval(interval);
 				}
 			};
@@ -414,7 +417,7 @@ const Content = () => {
 		}
 
 		return () => observer.disconnect();
-	}, [promptTextLines, promptTextRef.current]);
+	}, [promptTextLines, promptTextRef.current, sentences]);
 
     useEffect(() => {
         setTimeout(() => {
@@ -500,59 +503,9 @@ const Content = () => {
 				data-transition-status={promptTextStatus}
 			>
 				<span ref={promptTextContainerRef} id={styles.promptTextContainer}>
-					{/* <div id={styles.promptGlowGradientRotation}>
-						<span className={styles.promptGlow} data-gradient="1" />
-						<span className={styles.promptGlow} data-gradient="2" />
-						<span className={styles.promptGlow} data-gradient="3" />
-						<span className={styles.promptGlow} data-gradient="4" />
-						<span className={styles.promptGlow} data-gradient="5" />
-						<span className={styles.promptGlow} data-gradient="6" />
-						<span className={styles.promptGlow} data-gradient="7" />
-					</div>
-					<div id={styles.promptGlowGradientHover}>
-						<span
-							className={styles.promptGlow + " " + styles.promptGlowHover}
-							data-gradient="1"
-							data-active={`${hoveredWordPos && GRADIENTS_MAP[hoveredWordPos] === 1}`}
-						/>
-						<span
-							className={styles.promptGlow + " " + styles.promptGlowHover}
-							data-gradient="2"
-							data-active={`${hoveredWordPos && GRADIENTS_MAP[hoveredWordPos] === 2}`}
-						/>
-						<span
-							className={styles.promptGlow + " " + styles.promptGlowHover}
-							data-gradient="3"
-							data-active={`${hoveredWordPos && GRADIENTS_MAP[hoveredWordPos] === 3}`}
-						/>
-						<span
-							className={styles.promptGlow + " " + styles.promptGlowHover}
-							data-gradient="4"
-							data-active={`${hoveredWordPos && GRADIENTS_MAP[hoveredWordPos] === 4}`}
-						/>
-						<span
-							className={styles.promptGlow + " " + styles.promptGlowHover}
-							data-gradient="5"
-							data-active={`${hoveredWordPos && GRADIENTS_MAP[hoveredWordPos] === 5}`}
-						/>
-						<span
-							className={styles.promptGlow + " " + styles.promptGlowHover}
-							data-gradient="6"
-							data-active={`${hoveredWordPos && GRADIENTS_MAP[hoveredWordPos] === 6}`}
-						/>
-						<span
-							className={styles.promptGlow + " " + styles.promptGlowHover}
-							data-gradient="7"
-							data-active={`${hoveredWordPos && GRADIENTS_MAP[hoveredWordPos] === 7}`}
-						/>
-					</div> */}
                     <PromptGlow 
                         hoveredWordPos={hoveredWordPos}
                     />
-					<span
-						ref={promptGlowHoverRef}
-						className={styles.promptGlow + " " + styles.promptGlowHover}
-					/>
 					<span id={styles.promptTextWrapper}>
 						{balancedPromptText.map((line, lineIndex) => (
 							<>
@@ -594,7 +547,7 @@ const Content = () => {
 				placeholder={sentenceIndex === 0 ? "Type your answer here" : ""}
 			/>
 			<div
-				ref={correctTranslationRef}
+				ref={answerRef}
 				className={styles.correctTranslation}
 				data-ischecked={isChecked.toString()}
 			>
