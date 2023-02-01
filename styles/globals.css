@@ -21,6 +21,8 @@
 	--orange-highlight: rgb(255 120 31 / 0.1);
 	--yellow-highlight: rgb(255 191 0 / 0.1);
 	--green-highlight: rgb(66 215 115 / 0.1);
+
+    --header-height: 4.5rem;
 }
 
 * {

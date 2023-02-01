@@ -7,7 +7,7 @@
     gap: var(--gap);
     padding: 1px;
     width: 100vw;
-    margin-top: 4rem;
+    margin-top: var(--header-height);
     /* height: calc(100vh - 4rem); */
     background-color: var(--bg-100);
 }
@@ -15,7 +15,7 @@
 #header {
     position: absolute;
     top: 0;
-    height: 4rem;
+    height: var(--header-height);
     width: 100%;
     box-shadow: 0 -1px 0 #30363C inset;
     align-items: center;
@@ -78,14 +78,10 @@
     border: none;
     background-color: transparent;
     cursor: pointer;
-    margin-right: 0.8rem;
+    margin-right: 1rem;
     z-index: 1;
     height: 2rem;
     aspect-ratio: 1;
-    opacity: 0.25;
-    transition: 
-        opacity 500ms ease,
-        box-shadow 500ms ease;
 }
 
 #settingsButton > svg {
@@ -96,16 +92,8 @@
     transition: filter 500ms ease, transform 750ms ease;
 }
 
-#settingsButton:hover {
-    opacity: 1;
-}
-
 #settingsButton:hover > svg {
     transform: rotate(120deg);
-    filter: 
-        drop-shadow(0 0 0.25em rgb(200 200 255 / 0.25))
-        drop-shadow(0 0 1em rgb(200 200 255 / 0.35))
-        drop-shadow(0 0 2em rgb(200 200 255 / 0.75));
 }
 
 #donateButton {
@@ -113,13 +101,67 @@
     margin-left: auto;
     width: fit-content;
     height: fit-content;
+    width: 2rem;
+    height: 2rem;
     background-color: transparent;
     outline: none;
     border: none;
     cursor: pointer;
 }
 
-#donateButton > span {
+#donateButton > svg {
+    width: 2.2rem;
+    height: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    fill: transparent;
+    stroke: white;
+    stroke-width: 1.5px;
+    transition: filter 500ms ease;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    25% {
+        transform: scale(1.25) rotate(5deg);
+    }
+    50% {
+        transform: scale(0.9);
+    }
+    75% {
+        transform: scale(1.15) rotate(-5deg);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+#donateButton:hover > svg {
+    animation: pulse 1s ease infinite
+}
+
+.headerButton {
+    opacity: 0.25;
+    transition: 
+        opacity 500ms ease,
+        box-shadow 500ms ease;
+}
+
+.headerButton:hover {
+    opacity: 1;
+}
+
+.headerButton:hover > svg {
+    filter: 
+        drop-shadow(0 0 0.25em rgb(200 200 255 / 0.25))
+        drop-shadow(0 0 1em rgb(200 200 255 / 0.35))
+        drop-shadow(0 0 2em rgb(200 200 255 / 0.75));
+}
+
+/* #donateButton > span {
     position: relative;
     display: block;
     height: 2rem;
@@ -145,7 +187,7 @@
 
 #donateButton > span:hover > #bmcHover {
     opacity: 1;
-}
+} */
 
 
 
