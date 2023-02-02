@@ -7,13 +7,48 @@ interface ModalProps {
 }
 
 const Modal: React.FC<ModalProps> = ({ modalStatus, setModalStatus }) => {
-    const { dynamicGrading, direction, toggleDynamicGrading, updateDirection } = useSettings()
+    const {
+        dailyTarget,
+        dynamicGrading,
+        direction, 
+        updateDailyTarget,
+        toggleDynamicGrading, 
+        updateDirection
+    } = useSettings()
 
     const handleModalClose = () => {
         setModalStatus('closing')
         setTimeout(() => {
             setModalStatus('closed')
         }, 500)
+    }
+
+    const handleTargetChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const target = e.target.value;
+
+        if (!target){
+            updateDailyTarget(0)
+            return;
+        } 
+
+        if (target[0] === '0' && target.length > 1) {
+            updateDailyTarget(Number(target.slice(1)));
+            return;
+        }
+
+        updateDailyTarget(Number(target));
+    }
+
+    const handleTargetBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+        const target = e.target.value
+        
+        if (!target || Number(target) < 5) {
+            updateDailyTarget(5)
+        }
+
+        if (Number(target) > 25) {
+            updateDailyTarget(25)
+        }
     }
 
     return (
@@ -25,6 +60,18 @@ const Modal: React.FC<ModalProps> = ({ modalStatus, setModalStatus }) => {
                             Settings
                         </h1>
                         <div className = {styles.modalBody}>
+                            <p className = {styles.settingsLabel}>Daily sentence target</p>
+                            <div className = {styles.settingsSelector}>
+                                <input 
+                                    className = {styles.settingsNumberInput}
+                                    type = "number"
+                                    value = { dailyTarget.toString() }
+                                    min = '5'
+                                    max = '25'
+                                    onChange = { handleTargetChange }
+                                    onBlur = { handleTargetBlur }
+                                />
+                            </div>
                             <p className = {styles.settingsLabel}>Use dynamic grading</p>
                             <div className = {styles.settingsSelector}>
                                 <div className = {styles.toggleContainer}>
@@ -37,7 +84,7 @@ const Modal: React.FC<ModalProps> = ({ modalStatus, setModalStatus }) => {
                                     <label htmlFor = 'dynamic-grading' />
                                 </div>
                             </div>
-                            <p className = {styles.settingsLabel}>Spanish  →  English</p>
+                            <p className = {styles.settingsLabel}>Spanish  ➔  English</p>
                             <div className = {styles.settingsSelector}>
                                 <div className = {styles.toggleContainer}>
                                     <input
@@ -49,7 +96,7 @@ const Modal: React.FC<ModalProps> = ({ modalStatus, setModalStatus }) => {
                                     <label htmlFor = 'spanishToEnglish' />
                                 </div>
                             </div>
-                            <p className = {styles.settingsLabel}>English  →  Spanish</p>
+                            <p className = {styles.settingsLabel}>English  ➔  Spanish</p>
                             <div className = {styles.settingsSelector}>
                                 <div className = {styles.toggleContainer}>
                                     <input 

@@ -97,16 +97,19 @@
 import { useReducer, useContext, createContext } from "react";
 
 interface ISettingsContext {
+    dailyTarget: number;
 	dynamicGrading: boolean;
 	direction: {
 		spanishToEnglish: boolean;
 		englishToSpanish: boolean;
 	};
+    updateDailyTarget: (value: number) => void;
     toggleDynamicGrading: () => void;
     updateDirection: (field: "spanishToEnglish" | "englishToSpanish") => void;
 }
 
 type Action =
+    { type: "UPDATE_DAILY_TARGET"; value: number }
 	| { type: "TOGGLE_DYNAMIC_GRADING" }
 	| { type: "UPDATE_DIRECTION"; value: "spanishToEnglish" | "englishToSpanish" };
 
@@ -115,11 +118,13 @@ interface ISettingsProviderProps<T> {
 }
 
 const SettingsContext = createContext<ISettingsContext>({
+    dailyTarget: 5,
 	dynamicGrading: false,
 	direction: {
 		spanishToEnglish: true,
 		englishToSpanish: false
     },
+    updateDailyTarget: () => {},
     toggleDynamicGrading: () => {},
     updateDirection: () => {}
 });
@@ -127,6 +132,9 @@ const SettingsContext = createContext<ISettingsContext>({
 const settingsReducer = (state: ISettingsContext, action: Action): ISettingsContext => {
     const newState = { ...state };
 	switch (action.type) {
+        case "UPDATE_DAILY_TARGET":
+            newState.dailyTarget = action.value;
+            break;
 		case "TOGGLE_DYNAMIC_GRADING":
             newState.dynamicGrading = !newState.dynamicGrading;
             break;
@@ -174,6 +182,7 @@ export const SettingsContextProvider = <T extends React.ReactNode>({
 		parsedStoredSettings
 			? parsedStoredSettings
 			: {
+                    dailyTarget: 5,
 					dynamicGrading: false,
 					direction: {
 						spanishToEnglish: true,
@@ -181,6 +190,10 @@ export const SettingsContextProvider = <T extends React.ReactNode>({
 					}
 			  }
 	);
+
+    const updateDailyTarget = (value: number) => {
+        dispatch({ type: "UPDATE_DAILY_TARGET", value });
+    }
 
 	const toggleDynamicGrading = () => {
 		dispatch({ type: "TOGGLE_DYNAMIC_GRADING" });
@@ -192,6 +205,7 @@ export const SettingsContextProvider = <T extends React.ReactNode>({
 
 	const providerValue: ISettingsContext = {
 		...state,
+        updateDailyTarget,
 		toggleDynamicGrading,
 		updateDirection
 	};
