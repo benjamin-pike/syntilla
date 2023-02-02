@@ -1,6 +1,9 @@
+import { useState } from "react";
 import { Progress, IProgressEntry } from "../types/types";
 
 export const useUserProgress = () => {
+    const [streakLength, setStreakLength] = useState(0);
+    
     const updateProgress = (update: 
         {
             sentenceId: string,
@@ -25,6 +28,8 @@ export const useUserProgress = () => {
     }
 
     const getDueSentences = () => {
+        if (window === undefined) return;
+
         const progressString = localStorage.getItem('progress') || '[]';
         const progress: Progress = JSON.parse(progressString);
 
@@ -45,5 +50,32 @@ export const useUserProgress = () => {
         return dueSentences.map((entry: IProgressEntry) => entry.id);
     };
 
-    return { updateProgress, getDueSentences }
+    const updateStreak = () => {
+        const dateStreak = localStorage.getItem('dateStreak') || '[]';
+        const streak: number[] = JSON.parse(dateStreak);
+
+        const today = new Date().setHours(0, 0, 0, 0) / 1000
+        const yesterady = today - 24 * 60 * 60;
+
+        if (streak[0] === today) return streak.length
+
+        if (streak[0] === yesterady) {
+            streak.unshift(today);
+            localStorage.setItem('dateStreak', JSON.stringify(streak));
+            return streak.length;
+        }
+
+        localStorage.setItem('dateStreak', JSON.stringify([today]));
+        return 1
+    }
+
+    const getStreakLength = () => {
+        if (typeof localStorage === 'undefined') return -1;
+
+        const dateStreak = localStorage.getItem('dateStreak') || '[]';
+        const streak: number[] = JSON.parse(dateStreak);
+        return streak.length;
+    }
+
+    return { updateProgress, getDueSentences, updateStreak, getStreakLength }
 }
