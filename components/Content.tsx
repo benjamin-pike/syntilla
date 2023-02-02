@@ -15,7 +15,7 @@ interface IContentProps {
 }
 
 const Content = (props: IContentProps) => {
-	const { dynamicGrading, direction } = useSettings();
+	const { dailyTarget, dynamicGrading, direction } = useSettings();
     const {
         updateProgress, 
         getDueSentences, 
@@ -203,7 +203,7 @@ const Content = (props: IContentProps) => {
                 startTime: startTime,
             })
 
-            if (sentenceIndex === 0){
+            if (sentenceIndex === dailyTarget - 1){
                 const newStreakLength = updateStreak()
                 props.setStreakLength(newStreakLength)
             }
