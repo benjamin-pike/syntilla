@@ -18,43 +18,37 @@
     height: var(--header-height);
     width: 100%;
     box-shadow: 0 -1px 0 #30363C inset;
-    align-items: center;
-    justify-content: space-between;
     display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-/* #header > h1 {
-    color: white;
-    font-weight: 600;
-    font-size: 1.25rem;
-    margin-left: 50%;
-    transform: translate(-50%);
-    padding: 0.15rem 0.25rem 0.25rem;
-    border-top: 0.5px solid white;
-    border-bottom: 2px solid white;
-    user-select: none;
-} */
+#headerContent {
+    width: 100%;
+    height: var(--header-height);
+    max-width: 40rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
 
-#header > h1 {
+#headerContent > h1 {
     position: relative;
-    /* color: var(--bg-100);
-    background-color: white; */
     color: transparent;
     font-weight: 600;
     font-size: 1rem;
-    margin-left: calc(50% + 0.7rem);
-    margin-top: 0.35rem;
-    transform: translate(-50%);
-    padding: 0.4rem 0.7rem 0.5rem;
+    transform: translate(0.4rem);
+    margin-top: 0.35em;
+    padding: 0.4em 0.7em 0.5em;
     user-select: none;
 }
 
-#header > h1 {
-    box-shadow: 0 0 0 0.075rem rgb(255 255 255 / 0.25);
-    border-radius: 0.35rem;
+#headerContent > h1 {
+    box-shadow: 0 0 0 0.075em rgb(255 255 255 / 0.25);
+    border-radius: 0.35em;
 }
 
-#header > h1::after {
+#headerContent > h1::after {
     position: absolute;
     content: attr(data-text);
     color: white;
@@ -64,31 +58,58 @@
     align-items: center;
     justify-content: center;
     background-color: var(--bg-100);
-    border-radius: 0.3rem;
-    box-shadow: 0 0 0 0.075rem rgb(255 255 255 / 0.5) inset;
+    border-radius: 0.3em;
+    box-shadow: 0 0 0 0.075em rgb(255 255 255 / 0.5) inset;
 }
 
-#header > h1::after {
+#headerContent > h1::after {
     top: -0.35rem;
     left: -0.35rem;
 }
 
-#settingsButton {
+.headerButton,
+#dailyStreak {
+    --icon-size: 1.5em;
+    font-size: inherit;
     outline: none;
     border: none;
     background-color: transparent;
     cursor: pointer;
-    margin-right: 1rem;
     z-index: 1;
-    height: 2rem;
+    height: var(--icon-size);
     aspect-ratio: 1;
+    opacity: 0.25;
+    transition: 
+        opacity 500ms ease,
+        box-shadow 500ms ease;
+}
+
+.headerButton > svg,
+#dailyStreak > svg {
+    display: block;
+    width: var(--icon-size);
+    height: var(--icon-size);
+    color: white;
+}
+
+.headerButton:hover,
+#dailyStreak:hover {
+    opacity: 1;
+    filter: 
+        drop-shadow(0 0 0.25em rgb(200 200 255 / 0.15))
+        drop-shadow(0 0 1em rgb(200 200 255 / 0.25))
+        drop-shadow(0 0 2em rgb(200 200 255 / 0.5));
+}
+
+#settingsButton {
+    cursor: pointer;
+    margin-right: 1rem;
 }
 
 #settingsButton > svg {
     transform: rotate(0deg);
-    width: 2rem;
-    height: 2rem;
-    stroke-width: 1px;
+
+    stroke-width: 1.5px;
     transition: filter 500ms ease, transform 750ms ease;
 }
 
@@ -97,28 +118,14 @@
 }
 
 #donateButton {
-    margin-right: 0.5rem;
     margin-left: auto;
-    width: fit-content;
-    height: fit-content;
-    width: 2rem;
-    height: 2rem;
-    background-color: transparent;
-    outline: none;
-    border: none;
-    cursor: pointer;
+    margin-right: 0.5rem;
 }
 
 #donateButton > svg {
-    width: 2.2rem;
-    height: 2rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    fill: transparent;
-    stroke: white;
-    stroke-width: 1.5px;
-    transition: filter 500ms ease;
+    transform: rotate(0deg);
+    stroke-width: 0.5px;
+    transition: filter 500ms;
 }
 
 @keyframes pulse {
@@ -143,53 +150,76 @@
     animation: pulse 1s ease infinite
 }
 
-.headerButton {
-    opacity: 0.25;
-    transition: 
-        opacity 500ms ease,
-        box-shadow 500ms ease;
+#statsButton {
+    margin-left: 1rem;
 }
 
-.headerButton:hover {
-    opacity: 1;
+#statsBars {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    padding: 0.175em;
+    height: var(--icon-size);
+    width: var(--icon-size);
 }
 
-.headerButton:hover > svg {
-    filter: 
-        drop-shadow(0 0 0.25em rgb(200 200 255 / 0.25))
-        drop-shadow(0 0 1em rgb(200 200 255 / 0.35))
-        drop-shadow(0 0 2em rgb(200 200 255 / 0.75));
+.statsBar {
+    height: 100%;
+    width: 0.2em;
+    border-radius: 100vmax;
+    box-shadow: 0 0 0 1.75px white;
 }
 
-/* #donateButton > span {
+.statsBar:nth-of-type(1) {
+    height: 50%;
+}
+
+.statsBar:nth-of-type(2) {
+    height: 100%;
+}
+
+.statsBar:nth-of-type(3) {
+    height: 75%;
+}
+
+#statsButton:hover .statsBar:nth-of-type(1) {
+    animation: shrink 600ms ease infinite alternate;
+}
+
+#statsButton:hover .statsBar:nth-of-type(2) {
+    animation: shrink 600ms ease 200ms infinite alternate;
+}
+
+#statsButton:hover .statsBar:nth-of-type(3) {
+    animation: shrink 600ms ease 400ms infinite alternate;
+}
+
+
+#dailyStreak {
     position: relative;
-    display: block;
-    height: 2rem;
-    width: 2rem;
-    aspect-ratio: 1;
+    margin-left: 0.5rem;
+    margin-right: auto;
+    cursor: auto;
 }
 
-#donateButton > span > svg {
+#dailyStreak::after {
+    content: '12';
     position: absolute;
-    inset: 0;
-    height: 2rem;
-    background-color: transparent;
+    left: 65%;
+    top: 55%;
+    font-size: 0.5em;
+    font-weight: 600;
+    background-color: white;
+    color: var(--bg-100);
+    padding: 0.25em 0.6em;
+    border-radius: 100vmax;
 }
 
-#donateButton #bmcBase {
-    opacity: 0.5;
+@keyframes shrink {
+    to {
+        height: 25%;
+    }
 }
-
-#donateButton #bmcHover {
-    opacity: 0;
-    transition: opacity 200ms ease;
-}
-
-#donateButton > span:hover > #bmcHover {
-    opacity: 1;
-} */
-
-
 
 @media (max-width: 768px){
     .main{
@@ -199,5 +229,29 @@
 @media (max-width: 480px){
     .main{
         --gap: 2rem;
+    }
+}
+
+@media (min-width: 1024px) {
+    #header {
+        font-size: 1.35rem;
+    }
+}
+
+@media (max-width: 1024px) {
+    #header {
+        font-size: 1.35rem;
+    }
+}
+
+@media (max-width: 768px) {
+    #header {
+        font-size: 1.25rem;
+    }
+}
+
+@media (max-width: 480px) {
+    #header {
+        font-size: 1rem;
     }
 }

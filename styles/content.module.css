@@ -398,9 +398,9 @@
     box-shadow: 0 0 0 1.5px #30363C;
     border: none;
     color: white;
-    width:  70%;
+    width:  60%;
     max-width: 75rem;
-    font-size: 2em;
+    font-size: 1.25em;
     font-weight: 500;
     text-align: center;
     padding: 1.25em 1.5em;
@@ -425,7 +425,7 @@
 }
 
 .correctTranslation {
-    font-size: 1em;
+    font-size: 0.75em;
     padding: 1px;
     opacity: 0;
     height: 0;
@@ -482,7 +482,7 @@
     color: white;
     font-weight: 500;
     text-align: center;
-    font-size: 1.1em;
+    font-size: 0.75em;
     padding: 1.25em 1.5em;
     border-radius: 0.5em;
     z-index: 1;
@@ -510,7 +510,7 @@
     position: relative;
     color: white;
     border-radius: 0.5em;
-    font-size: 1.1em;
+    font-size: 0.75em;
     padding: 1.25em 1.5em;
     font-weight: 500;
     text-align: center;
@@ -874,52 +874,6 @@ p.translation::before {
     align-items: center;
     gap: 0.5rem;
 }
-
-/* 
-.translationPos {
-    position: relative;
-    list-style-type: none;
-    font-weight: 300;
-    font-size: 0.8rem;
-    padding: 0.5rem 0.75rem;
-    border-radius: 1rem 1rem 0.1rem 0.1rem;
-    border-bottom: 1px solid currentColor;
-}
-
-.translationPos[data-pos = 'NOUN'],
-.translationPos[data-pos = 'PROPN'] {
-    color: var(--red);
-    background-color: var(--red-highlight);
-}
-.translationPos[data-pos = 'DET'],
-.translationPos[data-pos = 'PRON'] {
-    color: var(--orange);
-    background-color: var(--orange-highlight);
-}
-.translationPos[data-pos = 'ADJ'],
-.translationPos[data-pos = 'NUM'] {
-    color: var(--yellow);
-    background-color: var(--yellow-highlight);
-}
-.translationPos[data-pos = 'ADV'] {
-    color: var(--lime);
-    background-color: var(--lime-highlight);
-}
-.translationPos[data-pos = 'AUX'],
-.translationPos[data-pos = 'VERB'] {
-    color: var(--green);
-    background-color: var(--green-highlight);
-}
-.translationPos[data-pos = 'CCONJ'],
-.translationPos[data-pos = 'SCONJ']{
-    color: var(--blue);
-    background-color: var(--blue-highlight);
-}
-
-.translationPos[data-pos = 'ADP'] {
-    color: var(--purple);
-    background-color: var(--purple-highlight);
-} */
 
 @supports (background: -webkit-named-image(i)) {
     #wordInfo,
