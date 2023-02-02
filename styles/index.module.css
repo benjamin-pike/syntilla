@@ -194,7 +194,6 @@
     animation: shrink 600ms ease 400ms infinite alternate;
 }
 
-
 #dailyStreak {
     position: relative;
     margin-left: 0.5rem;
@@ -203,16 +202,22 @@
 }
 
 #dailyStreak::after {
-    content: '12';
+    content: attr(data-streak-length);
     position: absolute;
     left: 65%;
     top: 55%;
     font-size: 0.5em;
     font-weight: 600;
+    opacity: 1;
     background-color: white;
     color: var(--bg-100);
     padding: 0.25em 0.6em;
     border-radius: 100vmax;
+    transition: opacity 500ms ease;
+}
+
+#dailyStreak[data-streak-length = '-1']::after {
+    opacity: 0;
 }
 
 @keyframes shrink {

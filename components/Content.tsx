@@ -10,9 +10,18 @@ import { WordInfoPopup } from "./WordInfoPopup";
 import { PromptGlow } from "./PromptGlow";
 import styles from "../styles/content.module.css";
 
-const Content = () => {
+interface IContentProps {
+    setStreakLength: (streakLength: number | ((prevStreakLength: number) => number)) => void
+}
+
+const Content = (props: IContentProps) => {
 	const { dynamicGrading, direction } = useSettings();
-    const { updateProgress, getDueSentences } = useUserProgress();
+    const {
+        updateProgress, 
+        getDueSentences, 
+        updateStreak, 
+        getStreakLength
+    } = useUserProgress();
 
 	const [sentences, setSentences] = useState<ISentence[]>([]);
 	const [sentenceIndex, setSentenceIndex, delayedSentenceIndex] = useDelayedState<number>(0, 500);
@@ -34,7 +43,6 @@ const Content = () => {
 
 	const promptTextRef = useRef<HTMLParagraphElement>(null);
 	const promptTextContainerRef = useRef<HTMLSpanElement>(null);
-	const promptGlowHoverRef = useRef<HTMLSpanElement>(null);
 	const inputRef = useRef<HTMLTextAreaElement>(null);
 	const answerRef = useRef<HTMLDivElement>(null);
 	const percentageRef = useRef<HTMLParagraphElement>(null);
@@ -194,6 +202,11 @@ const Content = () => {
                 accuracy: percentage / 100,
                 startTime: startTime,
             })
+
+            if (sentenceIndex === 0){
+                const newStreakLength = updateStreak()
+                props.setStreakLength(newStreakLength)
+            }
 
 			setIsChecked(true);
 			return;
@@ -381,13 +394,14 @@ const Content = () => {
 
 			setSentences(data);
 			calculateTextLines();
+            props.setStreakLength(getStreakLength())
 		})();
 	}, []);
 
 	// Recalculate text lines when the prompt text changes
 	useEffect(() => {
         if (sentenceIndex !== 0) return 
-        
+
 		let shouldRecalculate = true;
 		let observer = new MutationObserver(() => {
 			if (shouldRecalculate) {
