@@ -1,0 +1,111 @@
+#content {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    width: 100%;
+    grid-column-gap: 2rem;
+    grid-row-gap: 1rem;
+}
+
+.settingsLabel {
+    color: white;
+    font-weight: 500;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    white-space: pre;
+    justify-content: flex-start;
+}
+
+.settingsSelector{
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.toggleContainer,
+.settingsNumberInput {
+    position: relative;
+    width: 2.5rem;
+    height: 1.5rem;
+}
+
+.toggleContainer input[type="checkbox"] {
+    display: none;
+    opacity: 0;
+}
+
+.toggleContainer input[type="checkbox"] + label {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 100vmax;
+    box-shadow: 0 0 0 1px #30363C;
+    cursor: pointer;
+    transition: box-shadow 200ms ease;
+}
+
+.toggleContainer input[type="checkbox"] + label:before {
+    --padding: 0.25rem;
+    content: "";
+    position: absolute;
+    top: var(--padding);
+    bottom: var(--padding);
+    left: var(--padding);
+    height: calc(100% - (2 * var(--padding)));
+    aspect-ratio: 1;
+    box-shadow: 0 0 0 1px #30363C;
+    border-radius: 100%;
+    transition: 
+        background-color 200ms ease, 
+        transform 200ms ease, 
+        left 200ms ease,
+        box-shadow 200ms ease;
+}
+
+.toggleContainer input[type="checkbox"]:checked + label {
+    box-shadow: 0 0 0 1px white;
+}
+
+.toggleContainer input[type="checkbox"]:checked + label:before {
+    right: var(--padding);
+    left: 100%;
+    background-color: white;
+    box-shadow: 0 0 0 0 #30363C;
+    transform: translateX(calc(-100% - var(--padding)));
+}
+  
+.settingsNumberInput {
+    outline: none;
+    border: none;
+    background-color: transparent;
+    box-shadow: 0 0 0 1px white;
+    border-radius: 100vmax;
+    color: white;
+    font-weight: 600;
+    text-align: center;
+    -moz-appearance:textfield;
+    appearance: textfield;
+}
+.settingsNumberInput::-webkit-outer-spin-button,
+.settingsNumberInput::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+}
+
+@keyframes shake {
+    25% {
+        transform: translate(0.15rem);
+    }
+    75% {
+        transform: translate(-0.15rem);
+    }
+    100% {
+        transform: translate(0);
+    }
+}
+
+.settingsNumberInput:out-of-range {
+    box-shadow: 0 0 0 1px var(--red);
+    animation: shake 200ms ease forwards;
+}
