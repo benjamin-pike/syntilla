@@ -17,6 +17,7 @@ export default function Index() {
 		<>
 			<Head>
 				<title>Syntilla</title>
+                <link rel="shortcut icon" href="/favicon.png" />
 				<meta name="viewport" content="width=device-width, initial-scale=1" />
 			</Head>
             <header id = {styles.header}>
