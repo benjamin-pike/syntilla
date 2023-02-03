@@ -1,4 +1,11 @@
-import { type } from "os";
+export interface ModalProps {
+    children: React.ReactNode;
+    title: string;
+    modalStatus: 'open' | 'closing' | 'closed';
+    setModalStatus: React.Dispatch<React.SetStateAction<'open' | 'closing' | 'closed'>>
+}
+
+export type ModalStatusProps = Pick<ModalProps, 'modalStatus' | 'setModalStatus'>
 
 export type Language = "es" | "en";
 

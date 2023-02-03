@@ -1,16 +1,19 @@
 import Head from 'next/head'
 import styles from '../styles/index.module.css'
 import Content from '../components/Content'
-import Modal from '../components/Modal'
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { HiOutlineCog6Tooth } from 'react-icons/hi2'
 import { IoMdHeartEmpty } from 'react-icons/io'
 import { AiOutlineFire } from 'react-icons/ai'
 import { SettingsContextProvider } from '../store/settings.context'
-import { useUserProgress } from '../hooks/useUserProgress'
+import { SettingsModal } from '../components/SettingsModal'
+import { ProgressModal } from '../components/ProgressModal'
+
+type ModalStatus = 'open' | 'closing' | 'closed'
 
 export default function Index() {
-    const [modalStatus, setModalStatus] = useState<'open' | 'closing' | 'closed'>('closed')
+    const [settingsModalStatus, setSettingsModalStatus] = useState<ModalStatus>('closed')
+    const [progressModalStatus, setProgressModalStatus] = useState<ModalStatus>('closed')
     const [streakLength, setStreakLength] = useState<number>(-1)
 
     return (
@@ -25,7 +28,7 @@ export default function Index() {
                     <button
                         id = {styles.statsButton}
                         className = {styles.headerButton}
-                        onClick = {() => {}}
+                        onClick = {() => setProgressModalStatus('open')}
                     >
                         <div id = {styles.statsBars}>
                             <div className = {styles.statsBar} />
@@ -50,7 +53,7 @@ export default function Index() {
                     <button
                         id = {styles.settingsButton}
                         className = {styles.headerButton}
-                        onClick = {() => setModalStatus('open')}
+                        onClick = {() => setSettingsModalStatus('open')}
                     >
                         <HiOutlineCog6Tooth />
                     </button>
@@ -58,9 +61,13 @@ export default function Index() {
             </header>
 			<main className = { styles.main }>
                 <SettingsContextProvider>
-                    <Modal 
-                        modalStatus = {modalStatus} 
-                        setModalStatus = {setModalStatus}
+                    <SettingsModal 
+                        modalStatus = {settingsModalStatus} 
+                        setModalStatus = {setSettingsModalStatus}
+                    />
+                    <ProgressModal
+                        modalStatus = {progressModalStatus}
+                        setModalStatus = {setProgressModalStatus}
                     />
                     <Content 
                         setStreakLength = {setStreakLength}
