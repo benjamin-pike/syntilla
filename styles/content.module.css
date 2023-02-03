@@ -289,7 +289,7 @@
     position: relative;
     left: 50%;
     transform: translateX(-50%);
-    display: inline-block;
+    display: inline-flex;
 }
 
 .promptTextWord {
