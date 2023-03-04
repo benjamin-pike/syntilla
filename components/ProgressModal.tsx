@@ -8,16 +8,6 @@ import { StackedArea } from "./d3/StackedArea";
 import { HiChartBar } from "react-icons/hi";
 import { FaFileImport } from "react-icons/fa";
 import { AiOutlineUpload, AiOutlineDownload } from "react-icons/ai";
-import { constructMetricArray } from "../utils/data.utils";
-
-const testData: Record<string, number[]> = {
-	// @ts-ignore
-	ttc: constructMetricArray(mockAccRecord, "ttc", 65),
-	// @ts-ignore
-	accuracy: constructMetricArray(mockAccRecord, "accuracy", 35),
-	// @ts-ignore
-	wpm: constructMetricArray(mockAccRecord, "wpm", 65)
-};
 
 const parameters: Record<string, Omit<IHistogramProps, "data" | "metric">> = {
 	ttc: {
