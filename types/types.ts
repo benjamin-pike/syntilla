@@ -65,6 +65,38 @@ export interface IProgressEntry {
     acc: number;
     time: number;
     ttc: number;
+    words: number;
 }
 
 export type Progress = IProgressEntry[];
+
+interface ICoreChartProps {
+    data: Progress;
+    metric: string;
+    chartWidth: number;
+	chartHeight: number;
+	margin: { top: number; right: number; bottom: number; left: number };
+	xLabel: string;
+	yLabel: string;
+    yIsAbsolute: boolean;
+}
+
+export interface IHistogramProps extends ICoreChartProps {
+	min: number;
+	max: number;
+	binWidth: number;
+    barGap: number;
+    xTickSpacing: number;
+    xCutoff: 'high' | 'low' | 'both' | 'none';
+    lowerIsBetter: boolean;
+	yTicks: number;
+}
+
+export interface IStackedAreaProps extends ICoreChartProps {
+    xResolution: number;
+}
+
+export interface ITimeGroup {
+	time: Date;
+	[key: number]: number;
+}[];

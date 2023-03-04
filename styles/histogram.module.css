@@ -1,0 +1,88 @@
+#container {
+    width: 17em;
+    height: 100%;
+    pointer-events: none;
+}
+
+#container:focus,
+#container *:focus {
+    outline: none;
+}
+
+#container g text{
+    font-weight: 300;
+    font-size: 2.25em;
+}
+
+#container:has(.bar:hover) .bar:not(.bar:hover) {
+    opacity: 0.25;
+}
+
+.bar{
+    fill: url(#barGradientRedPink) var(--red);
+    z-index: 1;
+    transition: opacity 500ms ease 75ms;
+    pointer-events: auto;
+}
+
+.bar[data-color = 'blue'] {
+    fill: url(#barGradientIndigoBlue) var(--blue);
+}
+
+.bar[data-color = 'green'] {
+    fill: url(#barGradientTealGreen) var(--green);
+}
+
+.bar[data-color = 'yellow'] {
+    fill: url(#barGradientLimeYellow) var(--yellow);
+}
+
+.bar[data-color = 'red'] {
+    fill: url(#barGradientOrangeRed) var(--orange);
+}
+
+.bar[data-color = 'purple'] {
+    fill: url(#barGradientRedPink) var(--red);
+}
+
+.yAxis > g:first-of-type > line,
+.yAxis > path {
+    opacity: 0;
+}
+
+#tooltip {
+    font-size: 0.5em;
+    border-radius: 0.75em;
+    background-color: var(--bg-100);
+    opacity: 0.9;
+    box-shadow: 0 0 0 1px var(--slate-700);
+}
+
+#tooltip > div {
+    box-shadow: 1px 1px var(--slate-700);
+}
+
+#tooltipContent {
+    padding: 0.5em;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5em;
+}
+
+#tooltipHead {
+    font-weight: 600;
+    font-size: 1.25em;
+}
+
+#tooltipBody {
+    display: flex;
+    justify-content: center;
+}
+
+.unit {
+    font-weight: 200;
+    white-space: pre;
+    font-size: 0.75em;
+}

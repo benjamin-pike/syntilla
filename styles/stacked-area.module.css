@@ -1,0 +1,137 @@
+#container {
+    width: 17em;
+    height: 100%;
+    pointer-events: none;
+}
+
+
+#container:focus,
+#container *:focus {
+    outline: none;
+}
+
+#container g text{
+    font-weight: 300;
+    font-size: 2.25em;
+}
+
+.segment {
+    position: relative;
+    pointer-events: auto;
+    transition: opacity 500ms ease 75ms;
+}
+
+.segment[data-color = 'blue'] {
+    fill: var(--blue);
+}
+
+.segment[data-color = 'green'] {
+    fill: var(--green);
+}
+
+.segment[data-color = 'yellow'] {
+    fill: var(--yellow);
+}
+
+.segment[data-color = 'red'] {
+    fill: var(--red);
+}
+
+.segment[data-color = 'blue']:nth-of-type(2n) {
+    filter: brightness(0.95) saturate(1.1);
+}
+
+.segment[data-color = 'green']:nth-of-type(2n) {
+    filter: brightness(0.925) saturate(1.1);
+}
+
+.segment[data-color = 'yellow']:nth-of-type(2n) {
+    filter: brightness(0.975) saturate(1.1);
+}
+
+.segment[data-color = 'red']:nth-of-type(2n) {
+    filter: brightness(0.925) saturate(1.1);
+}
+
+
+.segment[data-color = 'blue']:nth-of-type(2n-1) {
+    filter: brightness(1.075);
+}
+
+.segment[data-color = 'green']:nth-of-type(2n-1) {
+    filter: brightness(1.025);
+}
+
+.segment[data-color = 'yellow']:nth-of-type(2n-1) {
+    filter: brightness(1.1)
+}
+
+.segment[data-color = 'red']:nth-of-type(2n-1) {
+    filter: brightness(1.075);
+}
+
+svg:has(.segment:hover) .segment:not(.segment:hover) {
+    opacity: 0.25;
+}
+
+.yAxis > g:first-of-type > line,
+.yAxis > path {
+    opacity: 0;
+}
+
+#tooltip {
+    font-size: 0.5em;
+    border-radius: 0.75em;
+    background-color: var(--bg-100);
+    opacity: 0.9;
+    box-shadow: 0 0 0 1px var(--slate-700);
+    /* z-index: 1000000 !important; */
+    opacity: 0.99;
+}
+
+#tooltip > div {
+    box-shadow: 1px 1px var(--slate-700);
+}
+
+#tooltipContent {
+    padding: 0.5em;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+}
+
+#tooltipHead {
+    font-weight: 600;
+    font-size: 1.25em;
+}
+
+#tooltipBody {
+    display: flex;
+    flex-direction: row;
+    gap: 1em;
+}
+
+#tooltipBodyLabels,
+#tooltipBodyValues {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25em;
+}
+
+#tooltipBodyLabels> p:last-of-type,
+#tooltipBodyValues> p:last-of-type {
+    --separation: 0.25em;
+    border-top: 0.5px solid white;
+    margin-top: var(--separation);
+    padding-top: calc(var(--separation) + 0.25em)
+}
+
+#tooltipBodyValues> p:last-of-type {
+    font-weight: 600;
+}
+
+.unit {
+    font-weight: 200;
+    white-space: pre;
+    font-size: 0.75em;
+}

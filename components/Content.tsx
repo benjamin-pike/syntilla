@@ -11,7 +11,9 @@ import { PromptGlow } from "./PromptGlow";
 import styles from "../styles/content.module.css";
 
 interface IContentProps {
+    modalIsOpen: boolean
     setStreakLength: (streakLength: number | ((prevStreakLength: number) => number)) => void
+    setActiveDays: (activeDays: number) => void
 }
 
 const Content = (props: IContentProps) => {
@@ -20,7 +22,8 @@ const Content = (props: IContentProps) => {
         updateProgress, 
         getDueSentences, 
         updateStreak, 
-        getStreakLength
+        getStreakLength,
+        getActiveDays
     } = useUserProgress();
 
 	const [sentences, setSentences] = useState<ISentence[]>([]);
@@ -30,6 +33,7 @@ const Content = (props: IContentProps) => {
 	const [translationTextLines, setTranslationTextLines] = useState<number>(0);
 
     const [startTime, setStartTime] = useState<number>(0)
+    const [accumTime, setAccumTime] = useState<number>(0)
 	const [inputText, setInputText] = useState<string>("");
 	const [isChecked, setIsChecked, delayedIsChecked] = useDelayedState<boolean>(false, 500);
 	const [percentage, setPercentage, delayedPercentage] = useDelayedState<number>(0, 500);
@@ -199,14 +203,17 @@ const Content = (props: IContentProps) => {
             updateProgress({
                 sentenceId: sentences[sentenceIndex]._id,
                 direction: `${promptLanguage}-${translationLanguage}`,
+                words: promptWordArray.length,
                 accuracy: percentage / 100,
-                startTime: startTime,
+                timeToComplete: accumTime + Date.now() - startTime
             })
 
             if (sentenceIndex === dailyTarget - 1){
                 const newStreakLength = updateStreak()
                 props.setStreakLength(newStreakLength)
             }
+
+            props.setActiveDays(getActiveDays().length)
 
 			setIsChecked(true);
 			return;
@@ -299,7 +306,6 @@ const Content = (props: IContentProps) => {
 
 	// Calculate the number of lines the prompt text should be split into based on the width of the container
 	const calculateTextLines = () => {
-        console.log("calculating text lines")
 		if (
 			!promptTextRef.current ||
 			!promptTextContainerRef.current ||
@@ -308,7 +314,7 @@ const Content = (props: IContentProps) => {
 		) {
 			return;
 		}
-        console.log("calculating text lines pass", promptTextRef.current.textContent, answerString)
+
         const promptContainerWidth = promptTextRef.current.offsetWidth;
 		const promptSentenceLength = measureText(
 			promptString,
@@ -395,6 +401,7 @@ const Content = (props: IContentProps) => {
 			setSentences(data);
 			calculateTextLines();
             props.setStreakLength(getStreakLength())
+            props.setActiveDays(getActiveDays().length)
 		})();
 	}, []);
 
@@ -438,6 +445,15 @@ const Content = (props: IContentProps) => {
             setStartTime(Date.now())
         }, 500)
     }, [sentenceIndex])
+
+    useEffect(() => {
+        if (props.modalIsOpen) {
+            setAccumTime(prevState => prevState + (Date.now() - startTime))
+            return
+        }
+
+        setStartTime(Date.now())
+    }, [props.modalIsOpen])
 
 	// Calculate text lines on resize
 	if (typeof window !== "undefined") {
@@ -569,7 +585,9 @@ const Content = (props: IContentProps) => {
 					{balancedAnswerText.length &&
 						balancedAnswerText.map((line) => (
 							<>
-								<span>{line.map((word) => word.word).join(" ")}</span>
+                                <span>{line.reduce((output, word) => 
+                                    output + word.word + (word.whitespace ? ' ' : '')
+                                , '')}</span>
 								<br />
 							</>
 						))}

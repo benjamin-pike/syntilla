@@ -6,7 +6,7 @@
     display: flex;
     justify-content: center;
     color: white;
-    font-size: 1.5rem;
+    font-size: 1em;
     font-weight: 400;
     width: 70%;
     max-width: 900px;
@@ -272,7 +272,7 @@
     position: relative;
     background-color: var(--bg-100);
     /* box-shadow: 
-        0 0 0 1.5px #30363C,
+        0 0 0 1.5px var(--slate-700),
         0 0 0.25rem 0.125rem black inset,
         0.25rem 0.25rem 0.25rem black,
         0.25rem 0.25rem 2.5rem black; */
@@ -395,7 +395,7 @@
 
     background-color: var(--bg-200);
     outline: none;
-    box-shadow: 0 0 0 1.5px #30363C;
+    box-shadow: 0 0 0 1.5px var(--slate-700);
     border: none;
     color: white;
     width:  60%;
@@ -425,7 +425,7 @@
 }
 
 .correctTranslation {
-    font-size: 0.75em;
+    font-size: 0.6em;
     padding: 1px;
     opacity: 0;
     height: 0;
@@ -477,12 +477,12 @@
     cursor: pointer;
     background-color: var(--bg-100);
     outline: none;
-    box-shadow: 0 0 0 1px #30363C;
+    box-shadow: 0 0 0 1px var(--slate-700);
     border: none;
     color: white;
     font-weight: 500;
     text-align: center;
-    font-size: 0.75em;
+    font-size: 0.7em;
     padding: 1.25em 1.5em;
     border-radius: 0.5em;
     z-index: 1;
@@ -510,7 +510,7 @@
     position: relative;
     color: white;
     border-radius: 0.5em;
-    font-size: 0.75em;
+    font-size: 0.7em;
     padding: 1.25em 1.5em;
     font-weight: 500;
     text-align: center;
@@ -562,32 +562,23 @@
 }
 
 @media (max-width: 1024px) {
-    .promptText {
-        font-size: 1.25rem;
-    }
     .input{
         font-size: 1.5rem;
         width:  75%;
     }
-    .correctTranslation {
-        font-size: 1em;
-    }
     .checkButton,
     .percentage{
-        font-size: 1em;
+        font-size: 0.8em;
     }
 }
 
 @media (max-width: 768px) {
-    .promptText {
-        font-size: 1rem;
-    }
     .input{
         font-size: 1.25rem;
         width:  75%;
     }
     .correctTranslation {
-        font-size: 0.9em;
+        font-size: 0.8em;
     }
     .checkButton,
     .percentage{
@@ -596,7 +587,7 @@
 
     #wordInfo[data-state = 'open'] {
         box-shadow: 
-            0 0 0 1px #30363C,
+            0 0 0 1px var(--slate-700),
             0 0 0.5rem rgb( 0 0 0 / 0.25 ),
             0 0 2.5rem rgb( 0 0 0 / 0.50 ),
             0 0 5rem rgb( 0 0 0 / 0.75 ),
@@ -606,7 +597,6 @@
 
 @media (max-width: 480px) {
     .promptText {
-        font-size: 0.85rem;
         width: 80%;
     }
     .input{
@@ -630,7 +620,7 @@
     background-color: var(--bg-100);
     color: white;
     border-radius: 1em;
-    box-shadow: 0 0 0 1px #30363C inset;
+    box-shadow: 0 0 0 1px var(--slate-700) inset;
     z-index: 999999;
     height: 0;
     width: 0;
@@ -645,7 +635,7 @@
 
 #wordInfo[data-state = 'open'] {
     box-shadow: 
-        0 0 0 1px #30363C,
+        0 0 0 1px var(--slate-700),
         0 0 0.5rem rgb( 0 0 0 / 0.25 ),
         0 0 2.5rem rgb( 0 0 0 / 0.50 ),
         0 0 5rem rgb( 0 0 0 / 0.75 );
@@ -706,7 +696,7 @@
 .wordInfoSeparator {
     width: 100%;
     height: 1px;
-    background-color: #30363C;
+    background-color: var(--slate-700);
     flex-shrink: 0;
 }
 
@@ -814,7 +804,7 @@
     font-size: 0.90rem;
     padding: 0.5rem 0.25rem;
     margin-bottom: 0.25rem;
-    border-bottom: 1px solid #30363C;
+    border-bottom: 1px solid var(--slate-700);
 }
 
 #wordInfoDetailedTranslations {

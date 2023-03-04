@@ -14,9 +14,9 @@ const Modal: React.FC<ModalProps> = ({children, title, modalStatus, setModalStat
             {modalStatus !== 'closed' && (
                 <div className = {styles.modalContainer} data-status = {modalStatus}>
                     <div className = {styles.modal}>
-                        <h1 className = {styles.modalHeader}>
+                        {/* <h1 className = {styles.modalHeader}>
                             {title}
-                        </h1>
+                        </h1> */}
                         <div className = {styles.modalBody}>
                             {children}
                         </div>

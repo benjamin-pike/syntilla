@@ -1,14 +1,295 @@
 #content {
     display: flex;
-    justify-content: center;
-    align-items: center;
+    flex-direction: column;
+    font-size: clamp(0.8em, 3vh, 1em);
 }
 
-#comingSoon {
-    padding: 0.75rem 1.5rem;
+#summary {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25em;
+    width: fit-content;
+    border-radius: 0.75em;
+    margin: auto;
+    margin-bottom: 1.5em;
+}
+
+#summary > h1 {
+    display: flex;
+    align-items: center;
+    margin: auto;
+    margin-bottom: 1.25em;
+    font-size: 0.5em;
+    width: fit-content;
     color: white;
-    font-size: 1rem;
-    font-weight: 600;
     border-radius: 100vmax;
-    box-shadow: 0 0 0 1px #30363C;
+}
+
+#summary > h1 > span {
+    display: block;
+}
+
+#summaryTitle {
+    font-weight: 600;
+    color: white;
+    background-color: var(--blue);
+    box-shadow: 0 0 0 1px var(--blue);
+    padding: 0.75em 1.25em 0.75em 1.5em;
+    border-radius: 100vmax 0 0 100vmax;
+}
+
+#summaryLine {
+    color: var(--blue);
+    background-color: var(--blue-highlight);
+    box-shadow: 0 0 0 1px var(--blue);
+    font-weight: 500;
+    border-radius: 0 100vmax 100vmax 0;
+    padding: 0.75em 1.5em 0.75em 1.25em;
+}
+
+#summaryChips {
+    position: relative;
+    display: flex;
+    gap: 0.4em;
+    width: fit-content;
+    margin: auto;
+}
+
+.summaryChip {
+    display: block;
+    font-weight: 500;
+    font-size: 0.5em;
+}
+
+.chipLabel {
+    border-radius: 100vmax 0 0 100vmax;
+    padding: 0.6em 0.5em 0.6em 1em;
+    font-weight: 600;
+}
+
+.chipValue {
+    border-radius: 0 100vmax 100vmax 0;
+    padding: 0.6em 1em 0.6em 0.5em;
+}
+
+.summaryChip[data-color = 'blue'] .chipLabel {
+    color: white;
+    background-color: var(--blue);
+    box-shadow: 0 0 0 1px var(--blue);
+}
+
+.summaryChip[data-color = 'green'] .chipLabel {
+    color: white;
+    background-color: var(--green-dark);
+    box-shadow: 0 0 0 1px var(--green-dark);
+}
+
+.summaryChip[data-color = 'yellow'] .chipLabel {
+    color: white;
+    background-color: var(--yellow-dark);
+    box-shadow: 0 0 0 1px var(--yellow-dark);
+}
+
+.summaryChip[data-color = 'red'] .chipLabel {
+    color: white;
+    background-color: var(--red);
+    box-shadow: 0 0 0 1px var(--red);
+}
+
+.summaryChip[data-color = 'blue'] .chipValue {
+    color: var(--blue);
+    background-color: var(--blue-highlight);
+    box-shadow: 0 0 0 1px var(--blue);
+}
+
+.summaryChip[data-color = 'green'] .chipValue {
+    color: var(--green);
+    background-color: var(--green-highlight);
+    box-shadow: 0 0 0 1px var(--green-dark);
+}
+
+.summaryChip[data-color = 'yellow'] .chipValue {
+    color: var(--yellow);
+    background-color: var(--yellow-highlight);
+    box-shadow: 0 0 0 1px var(--yellow-dark);
+}
+
+.summaryChip[data-color = 'red'] .chipValue {
+    color: var(--red);
+    background-color: var(--red-highlight);
+    box-shadow: 0 0 0 1px var(--red);
+}
+
+.tabs {
+    display: flex;
+    gap: 0.35em;
+}
+
+.tab {
+    cursor: pointer;
+    position: relative;
+    padding: 1em 1.5em 1em;
+    font-size: 0.475em;
+    font-weight: 500;
+    color: white;
+    border: 1.5px solid var(--slate-300);
+    background-color: var(--bg-200);
+    opacity: 0.5;
+    z-index: 0;
+    transition:
+        opacity 200ms ease, 
+        border 200ms ease,
+        color 200ms ease;
+}
+
+.tab[data-selected = 'true'] {
+    opacity: 1;
+}
+
+#metricTabs, #scaleTabs {
+    margin-left: -1.5px;
+}
+
+#timeTabs, #viewTabs {
+    margin-right: -1.5px;
+}
+
+#metricTabs > .tab[data-selected = 'true'],
+#viewTabs > .tab[data-selected = 'true'] {
+    border-bottom: 1.5px solid var(--bg-200);
+}
+
+#scaleTabs > .tab[data-selected = 'true'],
+#timeTabs > .tab[data-selected = 'true'] {
+    border-top: 1.5px solid var(--bg-200);
+}
+
+#metricTabs > .tab,
+#viewTabs > .tab {
+    border-radius: 1em 1em 0 0;
+}
+
+#scaleTabs > .tab,
+#timeTabs > .tab {
+    border-radius: 0 0 1em 1em;
+}
+
+#viewTabs svg{
+    scale: 1.4;
+    translate: 0 0.15em;
+}
+
+#viewTabs > .tab:first-of-type > svg {
+    scale: 1.4 1.7;
+}
+
+#topTabs,
+#bottomTabs {
+    display: flex;
+    justify-content: space-between;
+}
+
+#content[data-view = 'data'] .tabs:not(#viewTabs) {
+    cursor: not-allowed;
+}
+
+#content[data-view = 'data'] .tabs:not(#viewTabs) *,
+.tab:disabled {
+    pointer-events: none;
+    color: var(--slate-600)
+}
+
+.chart {
+    position: relative;
+    padding: 1.5em 1.5em 1em 1em;
+    background-color: var(--bg-200);
+}
+
+.chart::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    box-shadow: 0 0 0 1.5px var(--slate-300);
+    z-index: -1;
+}
+
+#dataHandling {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 15em;
+}
+
+#dataHandlingButtonWrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1em;
+    padding: 1.75em;
+    border-radius: 1em;
+}
+
+#dataOr {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--slate-100);
+    font-size: 0.6em;
+    font-weight: 600;
+    width: 2.5em;
+    aspect-ratio: 1;
+    padding-bottom: 0.15em;
+    border-radius: 100vmax;
+    box-shadow: 0 0 0 1px rgb(255 255 255 / 0.2);
+}
+
+#dataHandling button {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    padding: 1em 2em;
+    font-size: 0.6em;
+    font-weight: 500;
+    color: var(--slate-100);
+    border: none;
+    outline: none;
+    border-radius: 0.5em;
+    background-color: transparent;
+    box-shadow: 0 0 0 1px var(--slate-700);
+    transition:
+        background-color 300ms ease,
+        color 300ms ease,
+        box-shadow 300ms ease;
+}
+
+#dataHandling button > svg {
+    scale: 1.5;
+    margin-left: 1em;
+}
+
+#dataHandling button:hover {
+    background-color: var(--slate-100);
+    color: var(--bg-100);
+    box-shadow:
+        0 0 0 1px var(--slate-700),
+        0 0 0.25em rgb( 200 200 255 / 0.25 ),
+        0 0 0.5em rgb( 200 200 255 / 0.15 ),
+        0 0  1em rgb( 200 200 255 / 0.1 );
+}
+
+.dataWarning {
+    background-color: rgb(255 255 255 / 0.025);
+    box-shadow: 0 0 0 1px var(--slate-700);
+    padding: 0.75em 1.25em;
+    border-radius: 0.5em;
+    color: var(--slate-100);
+    font-size: 0.45em;
+    font-weight: 500;
+    margin-top: -1em;
 }

@@ -3,17 +3,25 @@
 :root {
 	--bg-100: rgb(2, 6, 12);
 	--bg-200: rgb(12, 12, 20);
-	--blue-dark: hsl(219, 100%, 49%);
-	--blue-highlight: rgb(0 123 255 / 0.1);
+
+    --slate-100: rgb(220, 224, 229);
+    --slate-200: rgb(189, 194, 203);
+    --slate-300: rgb(155, 163, 175);
+    --slate-400: rgb(123, 131, 147);
+    --slate-500: rgb(96, 106, 120);
+    --slate-600: rgb(78, 86, 100);
+    --slate-700: rgb(48, 54, 60);
+    --slate-800: rgb(30, 34, 39);
+    --slate-900: rgb(20, 23, 26);
 
 	--red: hsl(345, 100%, 60%);
 	--orange: hsl(24, 100%, 56%);
 	--yellow: hsl(45, 100%, 50%);
-    --lime: hsl(75, 100%, 50%);
-	--green: hsl(140, 65%, 55%);
-    --teal: hsl(180, 100%, 35%);
+    --lime: hsl(65, 100%, 50%);
+	--green: hsl(130, 70%, 50%);
+    --teal: hsl(170, 90%, 55%);
     --blue: hsl(211, 100%, 50%);
-    --indigo: hsl(240, 100%, 60%);
+    --indigo: hsl(245, 100%, 60%);
     --purple: hsl(270, 100%, 60%);
     --pink: hsl(300, 100%, 50%);
 
@@ -21,6 +29,11 @@
 	--orange-highlight: rgb(255 120 31 / 0.1);
 	--yellow-highlight: rgb(255 191 0 / 0.1);
 	--green-highlight: rgb(66 215 115 / 0.1);
+    --blue-highlight: rgb(0 123 255 / 0.1);
+
+    --yellow-dark: hsl(45, 100%, 47.5%);
+    --green-dark: hsl(130, 70%, 45%);
+    --blue-dark: hsl(219, 100%, 49%);
 
     --header-height: 4.5rem;
 }

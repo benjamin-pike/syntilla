@@ -1,13 +1,15 @@
 import Head from 'next/head'
 import styles from '../styles/index.module.css'
 import Content from '../components/Content'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { HiOutlineCog6Tooth } from 'react-icons/hi2'
 import { IoMdHeartEmpty } from 'react-icons/io'
 import { AiOutlineFire } from 'react-icons/ai'
 import { SettingsContextProvider } from '../store/settings.context'
 import { SettingsModal } from '../components/SettingsModal'
 import { ProgressModal } from '../components/ProgressModal'
+import { useUserProgress } from '../hooks/useUserProgress'
+import 'react-tooltip/dist/react-tooltip.css'
 
 type ModalStatus = 'open' | 'closing' | 'closed'
 
@@ -15,6 +17,7 @@ export default function Index() {
     const [settingsModalStatus, setSettingsModalStatus] = useState<ModalStatus>('closed')
     const [progressModalStatus, setProgressModalStatus] = useState<ModalStatus>('closed')
     const [streakLength, setStreakLength] = useState<number>(-1)
+    const [activeDays, setActiveDays] = useState<number>(0)
 
     return (
 		<>
@@ -29,6 +32,7 @@ export default function Index() {
                         id = {styles.statsButton}
                         className = {styles.headerButton}
                         onClick = {() => setProgressModalStatus('open')}
+                        disabled = {activeDays === 0}
                     >
                         <div id = {styles.statsBars}>
                             <div className = {styles.statsBar} />
@@ -68,9 +72,12 @@ export default function Index() {
                     <ProgressModal
                         modalStatus = {progressModalStatus}
                         setModalStatus = {setProgressModalStatus}
+                        activeDays = {activeDays}
                     />
                     <Content 
+                        modalIsOpen = {settingsModalStatus === 'open' || progressModalStatus === 'open'}
                         setStreakLength = {setStreakLength}
+                        setActiveDays = {setActiveDays}
                     />
                 </SettingsContextProvider>
 			</main>
