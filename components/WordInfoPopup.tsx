@@ -181,7 +181,7 @@ export const WordInfoPopup = (props: IWordInfoPopupProps) => {
                     <>
                         <div className={styles.wordInfoSeparator} />
                         <p>
-                            <span id={styles.wordInfoLemmaLabel}>Derived from:</span>
+                            <span id={styles.wordInfoLemmaLabel}>Derived from</span>
                             <span id={styles.wordInfoLemma}>
                                 {props.highlightedWordData.tokens[0].lemma}
                             </span>

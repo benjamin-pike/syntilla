@@ -2,14 +2,14 @@
     display: grid;
     grid-template-columns: auto 1fr;
     width: 100%;
-    grid-column-gap: 2rem;
-    grid-row-gap: 1rem;
+    grid-column-gap: 1em;
+    grid-row-gap: 0.75em;
 }
 
 .settingsLabel {
     color: white;
     font-weight: 500;
-    font-size: 1rem;
+    font-size: 0.65em;
     display: flex;
     align-items: center;
     white-space: pre;
@@ -22,11 +22,10 @@
     justify-content: flex-end;
 }
 
-.toggleContainer,
-.settingsNumberInput {
+.toggleContainer {
     position: relative;
-    width: 2.5rem;
-    height: 1.5rem;
+    width: 1.75em;
+    height: 1em;
 }
 
 .toggleContainer input[type="checkbox"] {
@@ -47,7 +46,7 @@
 }
 
 .toggleContainer input[type="checkbox"] + label:before {
-    --padding: 0.25rem;
+    --padding: 0.15em;
     content: "";
     position: absolute;
     top: var(--padding);
@@ -83,9 +82,12 @@
     box-shadow: 0 0 0 1px white;
     border-radius: 100vmax;
     color: white;
+    width: 100%;
+    height: 1.67em;
+    font-size: 0.6em;
     font-weight: 600;
     text-align: center;
-    -moz-appearance:textfield;
+    -moz-appearance: textfield;
     appearance: textfield;
 }
 .settingsNumberInput::-webkit-outer-spin-button,
@@ -95,10 +97,10 @@
 
 @keyframes shake {
     25% {
-        transform: translate(0.15rem);
+        transform: translate(0.15em);
     }
     75% {
-        transform: translate(-0.15rem);
+        transform: translate(-0.15em);
     }
     100% {
         transform: translate(0);

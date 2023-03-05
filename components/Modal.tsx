@@ -9,23 +9,24 @@ const Modal: React.FC<ModalProps> = ({children, title, modalStatus, setModalStat
         }, 500)
     }
 
+    const handleModalClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+        const target = e.target as HTMLDivElement
+        if (target.id === styles.modalContainer) 
+            handleModalClose()
+    }
+
     return (
         <>
             {modalStatus !== 'closed' && (
-                <div className = {styles.modalContainer} data-status = {modalStatus}>
+                <div 
+                    id = {styles.modalContainer} 
+                    data-status = {modalStatus}
+                    onClick = {handleModalClick}
+                >
                     <div className = {styles.modal}>
-                        {/* <h1 className = {styles.modalHeader}>
-                            {title}
-                        </h1> */}
                         <div className = {styles.modalBody}>
                             {children}
                         </div>
-                        <button 
-                            className = {styles.closeButton}
-                            onClick = {handleModalClose}
-                        >
-                            ✕
-                        </button>
                     </div>
                 </div>
             )}
