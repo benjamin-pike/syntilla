@@ -77,7 +77,7 @@ export const ProgressModal: React.FC<IProgressModalProps> = ({ modalStatus, setM
 	return (
 		<Modal title="Progress" modalStatus={modalStatus} setModalStatus={setModalStatus}>
 			<div id={styles.content} data-view={selectedView}>
-				<div id={styles.summary}>
+				{activeDays > 6 && <div id={styles.summary}>
 					<h1>
 						<span id={styles.summaryTitle}>Seven Day Summary</span>
 						<span id={styles.summaryLine}>{`Trending ${
@@ -139,7 +139,7 @@ export const ProgressModal: React.FC<IProgressModalProps> = ({ modalStatus, setM
 							}${Math.abs(trend.accuracy)}%`}</span>
 						</p>
 					</div>
-				</div>
+				</div>}
 				<div id={styles.topTabs}>
 					<div className={styles.tabs} id={styles.metricTabs}>
 						<button

@@ -28,7 +28,7 @@ export const useUserProgress = () => {
             acc: update.accuracy,
             words: update.words,
             time: Math.floor(Date.now() / 1000),
-            ttc: update.timeToComplete
+            ttc: update.timeToComplete < 300000 ? update.timeToComplete : 300000
         });
 
         localStorage.setItem('progress', JSON.stringify(progress));
@@ -140,6 +140,7 @@ export const useUserProgress = () => {
 
             const now = slope * selectedData[selectedData.length - 1].time + intercept;
             const then = slope * selectedData[0].time + intercept;
+            console.log(now, then)
 
             output[key] = Math.round(100 * (now - then) / then) || 0;
         })

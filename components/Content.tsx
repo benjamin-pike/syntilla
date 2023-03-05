@@ -388,10 +388,13 @@ const Content = (props: IContentProps) => {
 				for (let language of Object.keys(sentence)) {
 					if (["es", "en"].includes(language)) {
 						for (let i in sentence[language]) {
+                            const element = sentence[language][Number(i)];
+                            const lastChar = element.word[element.word.length - 1]
 							const nextElement = sentence[language][Number(i) + 1];
 							const addWhiteSpace =
-								nextElement && nextElement.tokens[0].pos !== "PUNCT";
-
+								nextElement && 
+                                nextElement.tokens[0].pos !== "PUNCT" &&
+                                (/^[A-Za-z\u00C0-\u00FF]$/i.test(lastChar) || element.tokens[0].pos === 'PUNCT')
 							data[s][language][i].whitespace = addWhiteSpace;
 						}
 					}

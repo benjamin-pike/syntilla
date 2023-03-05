@@ -271,11 +271,6 @@
     display: block;
     position: relative;
     background-color: var(--bg-100);
-    /* box-shadow: 
-        0 0 0 1.5px var(--slate-700),
-        0 0 0.25rem 0.125rem black inset,
-        0.25rem 0.25rem 0.25rem black,
-        0.25rem 0.25rem 2.5rem black; */
     border-radius: var(--border-radius);
     box-shadow: 
         0 0 0.25rem 0.125rem black inset,
@@ -561,60 +556,6 @@
     background-color: var(--red-highlight);
 }
 
-@media (max-width: 1024px) {
-    .input{
-        font-size: 1.5rem;
-        width:  75%;
-    }
-    .checkButton,
-    .percentage{
-        font-size: 0.8em;
-    }
-}
-
-@media (max-width: 768px) {
-    .input{
-        font-size: 1.25rem;
-        width:  75%;
-    }
-    .correctTranslation {
-        font-size: 0.8em;
-    }
-    .checkButton,
-    .percentage{
-        font-size: 0.9em;
-    }
-
-    #wordInfo[data-state = 'open'] {
-        box-shadow: 
-            0 0 0 1px var(--slate-700),
-            0 0 0.5rem rgb( 0 0 0 / 0.25 ),
-            0 0 2.5rem rgb( 0 0 0 / 0.50 ),
-            0 0 5rem rgb( 0 0 0 / 0.75 ),
-            0 0 0 100vmax rgb( 0 0 0 / 0.5 ) !important;
-    }
-}
-
-@media (max-width: 480px) {
-    .promptText {
-        width: 80%;
-    }
-    .input{
-        font-size: 1rem;
-        width: 80%;
-    }
-    .correctTranslation {
-        max-width: 80%;
-    }
-    .correctTranslation {
-        font-size: 0.8em;
-    }
-    .checkButton,
-    .percentage{
-        font-size: 0.8rem;
-    }
-}
-
 #wordInfo {
     position: absolute;
     background-color: var(--bg-100);
@@ -874,4 +815,68 @@ p.translation::before {
 
 .disabledTransitions * {
     transition: none !important;
+}
+
+@media (max-width: 1024px) {
+    .input{
+        font-size: 1.5rem;
+        width:  75%;
+    }
+    .checkButton,
+    .percentage{
+        font-size: 0.8em;
+    }
+    #wordInfoContent {
+        padding: 2em;
+    }
+}
+
+@media (max-width: 768px) {
+    .input{
+        font-size: 1.25rem;
+        width:  75%;
+    }
+    .correctTranslation {
+        font-size: 0.8em;
+    }
+    .checkButton,
+    .percentage{
+        font-size: 0.9em;
+    }
+
+    #wordInfoContent {
+        padding: 2.5em;
+    }
+
+    #wordInfo[data-state = 'open'] {
+        box-shadow: 
+            0 0 0 1px var(--slate-700),
+            0 0 0.5rem rgb( 0 0 0 / 0.25 ),
+            0 0 2.5rem rgb( 0 0 0 / 0.50 ),
+            0 0 5rem rgb( 0 0 0 / 0.75 ),
+            0 0 0 100vmax rgb( 0 0 0 / 0.5 ) !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .promptText {
+        width: 80%;
+    }
+    .input{
+        font-size: 1rem;
+        width: 80%;
+    }
+    .correctTranslation {
+        max-width: 80%;
+    }
+    .correctTranslation {
+        font-size: 0.8em;
+    }
+    .checkButton,
+    .percentage{
+        font-size: 0.8rem;
+    }
+    #wordInfoContent {
+        padding: 2.5em;
+    }
 }

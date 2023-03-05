@@ -23,50 +23,54 @@
 
 .segment[data-color = 'blue'] {
     fill: var(--blue);
+    filter: saturate(1.075)
 }
 
 .segment[data-color = 'green'] {
     fill: var(--green);
+    filter: saturate(1.075)
 }
 
 .segment[data-color = 'yellow'] {
     fill: var(--yellow);
+    filter: saturate(1.075)
 }
 
 .segment[data-color = 'red'] {
     fill: var(--red);
+    filter: saturate(1.075)
 }
 
-.segment[data-color = 'blue']:nth-of-type(2n) {
+.segment[data-color = 'blue']:nth-of-type(3n) {
     filter: brightness(0.95) saturate(1.1);
 }
 
-.segment[data-color = 'green']:nth-of-type(2n) {
+.segment[data-color = 'green']:nth-of-type(3n) {
     filter: brightness(0.925) saturate(1.1);
 }
 
-.segment[data-color = 'yellow']:nth-of-type(2n) {
+.segment[data-color = 'yellow']:nth-of-type(3n) {
     filter: brightness(0.975) saturate(1.1);
 }
 
-.segment[data-color = 'red']:nth-of-type(2n) {
+.segment[data-color = 'red']:nth-of-type(3n) {
     filter: brightness(0.925) saturate(1.1);
 }
 
 
-.segment[data-color = 'blue']:nth-of-type(2n-1) {
+.segment[data-color = 'blue']:nth-of-type(3n-2) {
     filter: brightness(1.075);
 }
 
-.segment[data-color = 'green']:nth-of-type(2n-1) {
+.segment[data-color = 'green']:nth-of-type(3n-2) {
     filter: brightness(1.025);
 }
 
-.segment[data-color = 'yellow']:nth-of-type(2n-1) {
+.segment[data-color = 'yellow']:nth-of-type(3n-2) {
     filter: brightness(1.1)
 }
 
-.segment[data-color = 'red']:nth-of-type(2n-1) {
+.segment[data-color = 'red']:nth-of-type(3n-2) {
     filter: brightness(1.075);
 }
 
